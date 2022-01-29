@@ -1,19 +1,11 @@
 local log_str = ""
 
+-- Temporary logging function
 re.on_draw_ui(function() 
     imgui.text(log_str)
 end)
 
-local print
-
 re.on_frame(function()
-    -- Get current player
-    local playerManager = sdk.get_managed_singleton("snow.player.PlayerManager")
-    local player = playerManager:call("findMasterPlayer")
-    local weaponType = player:get_field("_playerWeaponType")
-    -- 11 = Charge Blade. Called Charge Axe in code
-    log_str = weaponType
-
     -- Get GUI Manager
     local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
     -- guiManager:call("openHud") -- Health bar, stamina bar, quest timer
@@ -24,6 +16,18 @@ re.on_frame(function()
 
     local questUIManager = sdk.get_managed_singleton("snow.gui.QuestUIManager")
     -- questUIManager:call("closeQuestMapUI") -- Bottom-left minimap
+
+    -- Get current player
+    local playerManager = sdk.get_managed_singleton("snow.player.PlayerManager")
+    local player = playerManager:call("findMasterPlayer")
+
+    -- TODO: 
+    -- Get current/max health and stamina for player
+    -- Get quest timer and elapsed time (can look at existing mods for this)
+    -- Get monster health and place in convenient location (existing mods)
+    -- If possible, get monster-specific part values/statuses, etc.
+    -- If possible, reorganize Charge Blade weapon UI
+    -- Get current/max sharpness value for weapon
 
     log_str = type(questUIManager)
 end)
