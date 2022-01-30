@@ -51,6 +51,17 @@ local function drawStaminaBar()
 	)
 end
 
+local function drawQuestTimer()
+	local questManager = sdk.get_managed_singleton("snow.QuestManager")
+	local activeQuestData = questManager:call("getActiveQuestData")
+	if activeQuestData then
+		local timeLimit = activeQuestData:call("getTimeLimit")
+		local elapsedTimeSeconds = questManager:call("getQuestElapsedTimeSec");
+
+		log_str = string.format("Time: %02d:%02.0f/%02d m", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit)
+	end
+end
+
 -- closeUI
 local function hideUI()
   local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
@@ -108,11 +119,12 @@ end)
 -- Game loop function
 re.on_frame(function()
 	if showCustomUI then
-		log_str = "[MHRUIpp] Custom UI enabled"
+		-- log_str = "[MHRUIpp] Custom UI enabled"
 		hideUI()
 		drawHPBar()
 		drawStaminaBar()
+		drawQuestTimer()
 	else
-		log_str = "[MHRUIpp] Custom UI disbled"
+		-- log_str = "[MHRUIpp] Custom UI disbled"
 	end
 end)

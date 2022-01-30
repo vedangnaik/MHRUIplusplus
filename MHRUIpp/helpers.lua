@@ -7,7 +7,7 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
 log_str = ""
 
-showCustomUI = false
+showCustomUI = true
 
 -- Helper functions
 function getPlayer()
