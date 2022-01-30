@@ -12,16 +12,35 @@ log.info("Loading MHR UI++ main.lua...")
 -- Find way to remove top-right monster tracker thing
 
 
-local function displaySharpnessOnFrame()
-  -- Get current player
-  local playerManager = sdk.get_managed_singleton("snow.player.PlayerManager")
-  local player = playerManager:call("findMasterPlayer")
+-- local function displaySharpnessOnFrame()
+--   -- Get current player
+--   local playerManager = sdk.get_managed_singleton("snow.player.PlayerManager")
+--   local player = playerManager:call("findMasterPlayer")
 
-  -- Display sharpness
-  local current_sharpness = player:get_field("<SharpnessGauge>k__BackingField")
-  local max_sharpness = player:get_field("<SharpnessGaugeMax>k__BackingField")
+--   -- Display sharpness
+--   local current_sharpness = player:get_field("<SharpnessGauge>k__BackingField")
+--   local max_sharpness = player:get_field("<SharpnessGaugeMax>k__BackingField")
 
-  draw.filled_rect(500, 500, max_sharpness, 20, 0xFF000000)
+--   draw.filled_rect(500, 500, max_sharpness, 20, 0xFF000000)
+-- end
+
+local function drawHPBar()
+  -- Get all HP stuff
+	local playerData = getPlayer():call("get_PlayerData")
+	local currentHP = playerData:get_field("_r_Vital")
+	local maxHP = playerData:get_field("_vitalMax")
+	local keepHP = playerData:get_field("_vitalKeep")
+
+	local barLength = 500
+	local barHeight = 20
+	local x = 5
+	local y = 5
+	draw.filled_rect(x - 1, y - 1, barLength + 2, barHeight + 2, 0xAA000000)
+	draw.filled_rect(x, y, barLength * (currentHP / maxHP), barHeight, 0xAA228B22)
+	draw.text(string.format("Health: %d/%d", currentHP, maxHP), x + 5, y + 2, 0xFFFFFFFF)
+end
+
+local function drawStaminaBar()
 end
 
 -- closeUI
@@ -41,7 +60,6 @@ local function restoreUI()
   guiManager:call("openPartHud") -- Enable Palico and Palamute health
   guiManager:call("openSharpnessHud") -- Enable sharpness gauge
 end
-restoreUI()
 
 
 -- Works for detecting quest end/return
@@ -75,9 +93,11 @@ function(args)
   if getCurrentAreaNoInKamura() == 5 then
     log_str = enteredTrainingArea
     hideUICountdown = 100
+		showCustomUI = true
   else
     log_str = leftTrainingArea
     restoreUICountdown = 100
+		showCustomUI = false
   end
 end, function(retval) end)
 
@@ -90,7 +110,6 @@ end)
 -- Game loop function
 re.on_frame(function()
   if hideUICountdown > 0 then
-    -- log.info("here")
     hideUI()
     hideUICountdown = hideUICountdown - 1
   end
@@ -100,5 +119,7 @@ re.on_frame(function()
     restoreUICountdown = restoreUICountdown - 1
   end
 
-  -- log.info(hideUICountdown .. " " .. restoreUICountdown)
+	if showCustomUI then
+		drawHPBar()
+	end
 end)

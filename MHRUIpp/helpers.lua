@@ -12,7 +12,7 @@ log_str = ""
 
 hideUICountdown = 0
 restoreUICountdown = 0
-
+showCustomUI = true
 
 -- Helper functions
 function getPlayer()
