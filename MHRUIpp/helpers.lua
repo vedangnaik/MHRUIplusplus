@@ -1,18 +1,13 @@
 log.info("Loading MHR UI++ helpers.lua...")
 
--- Log strings
-enteredTrainingArea = "[MHRUIpp] Entered Kamura Training Area, enabling custom UI..."
-leftTrainingArea = "[MHRUIpp] Left Kamura Training Area, disabling custom UI..."
-
-
 -- Useful globals
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
+StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
+QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
 log_str = ""
 
-hideUICountdown = 0
-restoreUICountdown = 0
-showCustomUI = true
+showCustomUI = false
 
 -- Helper functions
 function getPlayer()
@@ -26,7 +21,7 @@ function getCurrentAreaNoInKamura()
 end
 
 function isDefaultUIOpen()
-  return sdk.get_managed_singleton("snow.gui.GuiManager"):call("isOpenHud")
+  return sdk.get_managed_singleton("snow.gui.GuiManager"):call("isOpenHudSharpness")
 end
 
 function drawGauge(x, y, w, h, percentage, gaugeColor, gaugeText)

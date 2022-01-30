@@ -42,11 +42,12 @@ local function drawStaminaBar()
 	local playerData = getPlayer():call("get_PlayerData")
 	local currentStamina = playerData:get_field("_stamina")
 	local maxStamina = playerData:get_field("_staminaMax")
+	local timeUntilStaminaMaxReduces = playerData:get_field("_staminaMaxDownIntervalTimer")
 	drawGauge(
 		5, 30, 
 		500, 20,
 		currentStamina / maxStamina, 0xAA23C5EE, 
-		string.format("Stamina: %.2f/%.2f", currentStamina, maxStamina)
+		string.format("Stamina: %.2f/%.2f \t Max reduction in %.0f ms", currentStamina, maxStamina, timeUntilStaminaMaxReduces)
 	)
 end
 
@@ -55,59 +56,49 @@ local function hideUI()
   local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
   guiManager:call("closeHud") -- Disable Health bar, stamina bar, quest timer, etc.
   guiManager:call("closePartHud") -- Disable Palico and Palamute health
-  guiManager:call("closeSharpnessHud") -- Disable sharpness gauge
+  guiManager:call("closeHudSharpness") -- Disable sharpness gauge
   -- guiManager:call("openWeaponUI") -- Weapon-specific UI e.g. Charge Blade phials
   -- guiManager:call("setInvisibleAllGUI", false) -- Turn off 'all' GUI, too powerful i.e. removes map, pause window, everything
   -- guiManager:call("closeAllQuestHudUI") -- Potentially useful, turns of all HUD i.e. items, everything
 end
-
 local function restoreUI()
   local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
   guiManager:call("openHud") -- Enable Health bar, stamina bar, quest timer, etc.
   guiManager:call("openPartHud") -- Enable Palico and Palamute health
-  guiManager:call("openSharpnessHud") -- Enable sharpness gauge
+  guiManager:call("openHudSharpness") -- Enable sharpness gauge
 end
 
 
--- Works for detecting quest end/return
--- local QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
--- sdk.hook(QuestManager_typedef:get_method("onQuestEnd"), function(args)
---     log.info("A quest was ended")
--- end, function(retval) end)
--- sdk.hook(QuestManager_typedef:get_method("onQuestReturn"), function(args)
---     log.info("A quest was returned from")
--- end, function(retval) end)
-
--- -- Works for detecting quest start/clear
--- local StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
--- sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
---     log.info("A quest was started")
--- end, function(retval) end)
--- sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
---     log.info("A quest was cleared")
--- end, function(retval) end)
-
--- -- Hook to QuestStart
--- sdk.hook(StageManager_typedef:get_method("onQuestStart"),
--- function(args)
--- end,
--- function(retval)
--- end)
 
 -- Hook to change in Kamura Area
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
 function(args)
   if getCurrentAreaNoInKamura() == 5 then
-    log_str = enteredTrainingArea
-    hideUICountdown = 100
 		showCustomUI = true
   else
-    log_str = leftTrainingArea
-    restoreUICountdown = 100
 		showCustomUI = false
   end
 end, function(retval) end)
 
+-- Hook into quest start
+sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
+	log_str = "Started quest..."
+	showCustomUI = true
+end, function(retval) end)
+
+-- Hook into quest end/return/clear/etc
+sdk.hook(QuestManager_typedef:get_method("onQuestEnd"), function(args)
+	log_str = "Ended quest..."
+	showCustomUI = false
+end, function(retval) end)
+sdk.hook(QuestManager_typedef:get_method("onQuestReturn"), function(args)
+	log_str = "Returned from quest..."
+	showCustomUI = false
+end, function(retval) end)
+sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
+	log_str = "Cleared quest..."
+	showCustomUI = false
+end, function(retval) end)
 
 -- Temporary Logging function
 re.on_draw_ui(function() 
@@ -116,18 +107,12 @@ end)
 
 -- Game loop function
 re.on_frame(function()
-  if hideUICountdown > 0 then
-    hideUI()
-    hideUICountdown = hideUICountdown - 1
-  end
-
-  if restoreUICountdown > 0 then
-    restoreUI()
-    restoreUICountdown = restoreUICountdown - 1
-  end
-
 	if showCustomUI then
+		log_str = "[MHRUIpp] Custom UI enabled"
+		hideUI()
 		drawHPBar()
 		drawStaminaBar()
+	else
+		log_str = "[MHRUIpp] Custom UI disbled"
 	end
 end)
