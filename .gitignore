@@ -1,4 +1,6 @@
 *
 
+!MHRUIpp/
+!MHRUIpp/**
 !.gitignore
-!mhr_augmented_ui.lua
+!MHRUIpp_main.lua
