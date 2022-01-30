@@ -10,8 +10,8 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
 log_str = ""
 
-pleaseHideDefaultUI = false
-pleaseRestoreDefaultUI = false
+hideUICountdown = 0
+restoreUICountdown = 0
 
 
 -- Helper functions

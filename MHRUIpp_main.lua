@@ -25,7 +25,7 @@ local function displaySharpnessOnFrame()
 end
 
 -- closeUI
-local function hideDefaultUI()
+local function hideUI()
   local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
   guiManager:call("closeHud") -- Disable Health bar, stamina bar, quest timer, etc.
   guiManager:call("closePartHud") -- Disable Palico and Palamute health
@@ -35,13 +35,13 @@ local function hideDefaultUI()
   -- guiManager:call("closeAllQuestHudUI") -- Potentially useful, turns of all HUD i.e. items, everything
 end
 
-local function restoreDefaultUI()
+local function restoreUI()
   local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
   guiManager:call("openHud") -- Enable Health bar, stamina bar, quest timer, etc.
   guiManager:call("openPartHud") -- Enable Palico and Palamute health
   guiManager:call("openSharpnessHud") -- Enable sharpness gauge
 end
-restoreDefaultUI()
+restoreUI()
 
 
 -- Works for detecting quest end/return
@@ -74,12 +74,13 @@ sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
 function(args)
   if getCurrentAreaNoInKamura() == 5 then
     log_str = enteredTrainingArea
-    pleaseHideDefaultUI = true
+    hideUICountdown = 100
   else
     log_str = leftTrainingArea
-    pleaseRestoreDefaultUI = true
+    restoreUICountdown = 100
   end
 end, function(retval) end)
+
 
 -- Temporary Logging function
 re.on_draw_ui(function() 
@@ -88,20 +89,16 @@ end)
 
 -- Game loop function
 re.on_frame(function()
-  if pleaseHideDefaultUI == true then
-    log.info("Trying to hide UI...")
-    hideDefaultUI()
-    if not isDefaultUIOpen() then
-      pleaseHideDefaultUI = false
-    end
+  if hideUICountdown > 0 then
+    -- log.info("here")
+    hideUI()
+    hideUICountdown = hideUICountdown - 1
   end
 
-  if pleaseRestoreDefaultUI == true then
-    restoreDefaultUI()
-    if isDefaultUIOpen() then
-      pleaseRestoreDefaultUI = false
-    end
+  if restoreUICountdown > 0 then
+    restoreUI()
+    restoreUICountdown = restoreUICountdown - 1
   end
 
-  -- log.info(tostring(hideDefaultUI) .. " " .. tostring(restoreDefaultUI))
+  -- log.info(hideUICountdown .. " " .. restoreUICountdown)
 end)
