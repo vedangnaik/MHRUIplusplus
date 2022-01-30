@@ -29,18 +29,25 @@ local function drawHPBar()
 	local playerData = getPlayer():call("get_PlayerData")
 	local currentHP = playerData:get_field("_r_Vital")
 	local maxHP = playerData:get_field("_vitalMax")
-	local keepHP = playerData:get_field("_vitalKeep")
-
-	local barLength = 500
-	local barHeight = 20
-	local x = 5
-	local y = 5
-	draw.filled_rect(x - 1, y - 1, barLength + 2, barHeight + 2, 0xAA000000)
-	draw.filled_rect(x, y, barLength * (currentHP / maxHP), barHeight, 0xAA228B22)
-	draw.text(string.format("Health: %d/%d", currentHP, maxHP), x + 5, y + 2, 0xFFFFFFFF)
+	drawGauge(
+		5, 5, 
+		500, 20, 
+		currentHP / maxHP, 0xAA228B22, 
+		string.format("Health: %d/%d", currentHP, maxHP)
+	)
 end
 
 local function drawStaminaBar()
+	-- Get all stamina stuff
+	local playerData = getPlayer():call("get_PlayerData")
+	local currentStamina = playerData:get_field("_stamina")
+	local maxStamina = playerData:get_field("_staminaMax")
+	drawGauge(
+		5, 30, 
+		500, 20,
+		currentStamina / maxStamina, 0xAA23C5EE, 
+		string.format("Stamina: %.2f/%.2f", currentStamina, maxStamina)
+	)
 end
 
 -- closeUI
@@ -121,5 +128,6 @@ re.on_frame(function()
 
 	if showCustomUI then
 		drawHPBar()
+		drawStaminaBar()
 	end
 end)
