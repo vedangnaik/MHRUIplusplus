@@ -6,7 +6,7 @@ showHealthBarPPConfigWindow = false
 -- Default values for Health Bar++
 local function initDefaults()
     local c = {}
-    c["x"] = 5
+    c["x"] = 50
     c["y"] = 5
     c["w"] = 300
     c["h"] = 20
