@@ -5,9 +5,6 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
-log_str = ""
-
-showCustomUI = true
 
 -- Helper functions
 function getPlayer()
@@ -16,8 +13,8 @@ function getPlayer()
   return player
 end
 
-function getCurrentAreaNoInKamura()
-  return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo")
+function isInTrainingArea()
+  return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo") == 5
 end
 
 function isDefaultUIOpen()
@@ -29,3 +26,9 @@ function drawGauge(x, y, w, h, percentage, gaugeColor, gaugeText)
 	draw.filled_rect(x, y, w * percentage, h, gaugeColor)
 	draw.text(gaugeText, x + 5, y + 2, 0xFFFFFFFF)
 end
+
+-- Temporary Logging function
+-- log_str = ""
+-- re.on_draw_ui(function() 
+--     imgui.text(tostring(log_str))
+-- end)
