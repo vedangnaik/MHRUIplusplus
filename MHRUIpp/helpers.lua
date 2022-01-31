@@ -35,7 +35,7 @@ function drawGauge(
 end
 
 -- Temporary Logging function
-log_str = ""
-re.on_draw_ui(function() 
-    imgui.text(tostring(log_str))
-end)
+-- log_str = ""
+-- re.on_draw_ui(function() 
+--     imgui.text(tostring(log_str))
+-- end)
