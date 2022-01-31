@@ -60,10 +60,24 @@ local function drawHealthBarPPConfigWindow()
 	end
     
     local changed = false;
-    changed, config["x"] = imgui.drag_int("x coord", config["x"], 2, 0, 10000)
+    changed, config["x"] = imgui.drag_int("X coord", config["x"], 2, 0, 10000)
     config_changed = config_changed or changed
-    changed, config["y"] = imgui.drag_int("y coord", config["y"], 2, 0, 10000)
+    changed, config["y"] = imgui.drag_int("Y coord", config["y"], 2, 0, 10000)
     config_changed = config_changed or changed
+    changed, config["w"] = imgui.drag_int("Width", config["w"], 2, 0, 10000)
+    config_changed = config_changed or changed
+    changed, config["h"] = imgui.drag_int("Height", config["h"], 2, 0, 10000)
+    config_changed = config_changed or changed
+    changed, config["borderThickness"] = imgui.drag_int("Border", config["borderThickness"], 1, 0, 50)
+    config_changed = config_changed or changed
+    -- TODO: Add color picker
+    imgui.text("Color pickers coming soon!")
+    imgui.new_line()
+    
+    if imgui.button("Reset Defaults") then
+        config = initDefaults()
+        config_changed = true
+    end
 
 	imgui.end_window()
 end
