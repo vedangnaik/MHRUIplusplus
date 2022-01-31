@@ -17,7 +17,7 @@ local function initDefaults()
 end
 
 -- Load local profile
-local config_file_name = "MHRUIpp_Profiles\\health_bar_pp.json" 
+local config_file_name = "MHRUIpp_Profiles\\HealthBarPP.json"
 local config = {}
 local config_changed = false
 (function()
@@ -36,7 +36,7 @@ function drawHealthBarPP()
     local currentHP = playerData:get_field("_r_Vital")
     local maxHP = playerData:get_field("_vitalMax")
     drawGauge(
-        config["x"], config["y"], config["w"], config["h"],
+        config["x"], config["y"], config["w"] * (maxHP / 100), config["h"],
         config["borderThickness"],
         config["gaugeColor"], config["barColor"],
         currentHP / maxHP,
