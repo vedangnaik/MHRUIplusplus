@@ -14,12 +14,7 @@ require("MHRUIpp/CloseUI")
 log.info("Loading MHR UI++ main.lua...")
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
-showMHRUIpp = false
--- Same as above but for configuration window
-showMHRUIppConfigWindow = false
-
--- Load user's profile
--- TODO
+showMHRUIpp = true
 
 -- Hook to change in Kamura Area
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
