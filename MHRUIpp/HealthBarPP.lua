@@ -5,16 +5,15 @@ showHealthBarPPConfigWindow = false
 
 -- Default values for Health Bar++
 local function initDefaults()
-    -- Local shadows global var of same name
-    local config = {}
-    config["x"] = 5
-    config["y"] = 5
-    config["w"] = 500
-    config["h"] = 20
-    config["borderThickness"] = 2
-    config["gaugeColor"] = "0xAA000000"
-    config["barColor"] = "0xAA228B22"
-    return config
+    local c = {}
+    c["x"] = 5
+    c["y"] = 5
+    c["w"] = 500
+    c["h"] = 20
+    c["borderThickness"] = 2
+    c["gaugeColor"] = "0xAA000000"
+    c["barColor"] = "0xAA228B22"
+    return c
 end
 
 -- Load local profile
