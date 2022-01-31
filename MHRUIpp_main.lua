@@ -11,6 +11,7 @@ require("MHRUIpp/helpers")
 require("MHRUIpp/CloseUI")
 require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/StaminaBarPP")
+require("MHRUIpp/QuestTimerPP")
 
 log.info("[MHRUIpp] Loading MHR UI++...")
 
@@ -55,6 +56,9 @@ local function drawMHRUIppConfigDropdown()
 		end
         if imgui.button("Configure Stamina Bar++") then
 			showStaminaBarPPConfigWindow = not showStaminaBarPPConfigWindow
+		end
+        if imgui.button("Configure Quest Timer++") then
+			showQuestTimerPPConfigWindow = not showQuestTimerPPConfigWindow
 		end
 	end
 end
