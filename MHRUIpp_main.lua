@@ -8,13 +8,14 @@
 -- Find way to remove top-right monster tracker thing
 
 require("MHRUIpp/helpers")
-require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/CloseUI")
+require("MHRUIpp/HealthBarPP")
+require("MHRUIpp/StaminaBarPP")
 
-log.info("Loading MHR UI++ main.lua...")
+log.info("[MHRUIpp] Loading MHR UI++...")
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
-showMHRUIpp = false
+showMHRUIpp = true
 
 -- Hook to change in Kamura Area
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
@@ -51,6 +52,9 @@ local function drawMHRUIppConfigDropdown()
 	if imgui.tree_node("Configure MHRUI++") then
 		if imgui.button("Configure Health Bar++") then
 			showHealthBarPPConfigWindow = not showHealthBarPPConfigWindow
+		end
+        if imgui.button("Configure Stamina Bar++") then
+			showStaminaBarPPConfigWindow = not showStaminaBarPPConfigWindow
 		end
 	end
 end
