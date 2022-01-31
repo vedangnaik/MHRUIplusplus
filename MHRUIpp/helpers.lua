@@ -21,14 +21,21 @@ function isDefaultUIOpen()
   return sdk.get_managed_singleton("snow.gui.GuiManager"):call("isOpenHudSharpness")
 end
 
-function drawGauge(x, y, w, h, percentage, gaugeColor, gaugeText)
-	draw.filled_rect(x - 1, y - 1, w + 2, h + 2, 0xAA000000)
-	draw.filled_rect(x, y, w * percentage, h, gaugeColor)
+function drawGauge(
+    x, y, w, h,
+    borderThickness, 
+    gaugeColor, barColor,
+    percentage,
+    gaugeText
+)
+    local bt = (2 * borderThickness)
+	draw.filled_rect(x - borderThickness, y - borderThickness, w + bt, h + bt, gaugeColor)
+	draw.filled_rect(x, y, w * percentage, h, barColor)
 	draw.text(gaugeText, x + 5, y + 2, 0xFFFFFFFF)
 end
 
 -- Temporary Logging function
--- log_str = ""
--- re.on_draw_ui(function() 
---     imgui.text(tostring(log_str))
--- end)
+log_str = ""
+re.on_draw_ui(function() 
+    imgui.text(tostring(log_str))
+end)

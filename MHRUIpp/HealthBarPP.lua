@@ -1,16 +1,29 @@
 require("MHRUIpp/helpers")
 
+-- Global
 showHealthBarPPConfigWindow = false
 
+-- Load local profile
+local config = {}
+(function()
+    config = json.load_file(fs.glob([[MHRUIpp_Profiles\\health_bar_pp.json]])[1])
+    if config ~= nil then
+        log.info("[MHRUIpp] Health Bar config loaded.")
+    else
+        log.error("[MHRUIpp] Health Bar config not found, using default values.")
+        -- TODO
+    end
+end)()
+
 function drawHealthBarPP()
-    -- Get all HP stuff
     local playerData = getPlayer():call("get_PlayerData")
     local currentHP = playerData:get_field("_r_Vital")
     local maxHP = playerData:get_field("_vitalMax")
     drawGauge(
-        5, 5, 
-        500, 20,
-        currentHP / maxHP, 0xAA228B22, 
+        config["x"], config["y"], config["w"], config["h"],
+        config["borderThickness"],
+        config["gaugeColor"], config["barColor"],
+        currentHP / maxHP,
         string.format("Health: %d/%d", currentHP, maxHP)
     )
 end
