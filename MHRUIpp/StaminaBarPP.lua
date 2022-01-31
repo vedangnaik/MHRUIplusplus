@@ -8,7 +8,7 @@ local function initDefaults()
     local c = {}
     c["x"] = 5
     c["y"] = 30
-    c["w"] = 500
+    c["w"] = 300
     c["h"] = 20
     c["borderThickness"] = 2
     c["gaugeColor"] = "0xAA000000"
@@ -36,12 +36,17 @@ function drawStaminaBarPP()
 	local currentStamina = playerData:get_field("_stamina")
 	local maxStamina = playerData:get_field("_staminaMax")
 	local timeUntilStaminaMaxReduces = playerData:get_field("_staminaMaxDownIntervalTimer")
-    drawGauge(
-        config["x"], config["y"], config["w"] * (maxStamina / 3000), config["h"],
-        config["borderThickness"],
-        config["gaugeColor"], config["barColor"],
-        currentStamina / maxStamina,
-        string.format("Stamina: %.0f/%.0f \t Max reduction in %.02f s", currentStamina, maxStamina, timeUntilStaminaMaxReduces)
+
+    local b = config["borderThickness"]
+    local b_offset = b << 1 -- Fast multiply by 2
+    local textVerticalOffset = (config["h"] - 14) >> 1 -- Fast div by 2, font size is 14
+    local scaled_width = config["w"] * (maxStamina / 3000)
+
+	draw.filled_rect(config["x"] - b, config["y"] - b, scaled_width + b_offset, config["h"] + b_offset, config["gaugeColor"])
+	draw.filled_rect(config["x"], config["y"], scaled_width * currentStamina / maxStamina, config["h"], config["barColor"])
+	draw.text(
+        string.format("Stamina: %.0f/%.0f \t Max reduction in %.02f s", currentStamina, maxStamina, timeUntilStaminaMaxReduces), 
+        config["x"] + 5, config["y"] + textVerticalOffset, 0xFFFFFFFF
     )
 end
 

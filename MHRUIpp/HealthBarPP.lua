@@ -8,7 +8,7 @@ local function initDefaults()
     local c = {}
     c["x"] = 5
     c["y"] = 5
-    c["w"] = 500
+    c["w"] = 300
     c["h"] = 20
     c["borderThickness"] = 2
     c["gaugeColor"] = "0xAA000000"
@@ -35,12 +35,17 @@ function drawHealthBarPP()
     local playerData = getPlayer():call("get_PlayerData")
     local currentHP = playerData:get_field("_r_Vital")
     local maxHP = playerData:get_field("_vitalMax")
-    drawGauge(
-        config["x"], config["y"], config["w"] * (maxHP / 100), config["h"],
-        config["borderThickness"],
-        config["gaugeColor"], config["barColor"],
-        currentHP / maxHP,
-        string.format("Health: %d/%d", currentHP, maxHP)
+
+    local b = config["borderThickness"]
+    local b_offset = b << 1 -- Fast multiply by 2
+    local textVerticalOffset = (config["h"] - 14) >> 1 -- Fast div by 2, font size is 14
+    local scaled_width = config["w"] * (maxHP / 100)
+
+	draw.filled_rect(config["x"] - b, config["y"] - b, scaled_width + b_offset, config["h"] + b_offset, config["gaugeColor"])
+	draw.filled_rect(config["x"], config["y"], scaled_width * currentHP / maxHP, config["h"], config["barColor"])
+	draw.text(
+        string.format("Health: %d/%d", currentHP, maxHP), 
+        config["x"] + 5, config["y"] + textVerticalOffset, 0xFFFFFFFF
     )
 end
 
