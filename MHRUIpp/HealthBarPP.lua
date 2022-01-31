@@ -3,15 +3,32 @@ require("MHRUIpp/helpers")
 -- Global
 showHealthBarPPConfigWindow = false
 
+-- Default values for Health Bar++
+local function initDefaults()
+    -- Local shadows global var of same name
+    local config = {}
+    config["x"] = 5
+    config["y"] = 5
+    config["w"] = 500
+    config["h"] = 20
+    config["borderThickness"] = 2
+    config["gaugeColor"] = "0xAA000000"
+    config["barColor"] = "0xAA228B22"
+    return config
+end
+
 -- Load local profile
+local config_file_name = "MHRUIpp_Profiles\\health_bar_pp.json" 
 local config = {}
+local config_changed = false
 (function()
-    config = json.load_file(fs.glob([[MHRUIpp_Profiles\\health_bar_pp.json]])[1])
-    if config ~= nil then
-        log.info("[MHRUIpp] Health Bar config loaded.")
-    else
+    loaded_config = json.load_file(config_file_name)
+    if loaded_config == nil then
         log.error("[MHRUIpp] Health Bar config not found, using default values.")
-        -- TODO
+        config = initDefaults()
+        json.dump_file(config_file_name, config)
+    else
+        config = loaded_config
     end
 end)()
 
@@ -28,13 +45,25 @@ function drawHealthBarPP()
     )
 end
 
-function drawHealthBarPPConfigWindow()
+local function drawHealthBarPPConfigWindow()
     showHealthBarPPConfigWindow = imgui.begin_window("Configure MHRUI++ Health Bar", true, 0x10120)
 	if not showHealthBarPPConfigWindow then
+        if config_changed then
+            if not json.dump_file(config_file_name, config) then
+                log.error("[MHRUIpp] Health Bar config failed, saving default values.")
+                config = initDefaults()
+                json.dump_file(config_file_name, config)
+            end
+        end
+        config_changed = false
 		return
 	end
-
-
+    
+    local changed = false;
+    changed, config["x"] = imgui.drag_int("x coord", config["x"], 2, 0, 10000)
+    config_changed = config_changed or changed
+    changed, config["y"] = imgui.drag_int("y coord", config["y"], 2, 0, 10000)
+    config_changed = config_changed or changed
 
 	imgui.end_window()
 end
