@@ -30,21 +30,17 @@ end, function(retval) end)
 
 -- Hook into quest start
 sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
-	log_str = "Started quest..."
 	showMHRUIpp = true
 end, function(retval) end)
 
 -- Hook into quest end/return/clear/etc
 sdk.hook(QuestManager_typedef:get_method("onQuestEnd"), function(args)
-	log_str = "Ended quest..."
 	showMHRUIpp = false
 end, function(retval) end)
 sdk.hook(QuestManager_typedef:get_method("onQuestReturn"), function(args)
-	log_str = "Returned from quest..."
 	showMHRUIpp = false
 end, function(retval) end)
 sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
-	log_str = "Cleared quest..."
 	showMHRUIpp = false
 end, function(retval) end)
 
