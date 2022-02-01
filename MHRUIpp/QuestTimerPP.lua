@@ -40,20 +40,22 @@ function drawQuestTimerPP()
 	if activeQuestData then
 		timeLimit = activeQuestData:call("getTimeLimit")
 		elapsedTimeSeconds = questManager:call("getQuestElapsedTimeSec");
-
-		-- log_str = string.format("Time: %02d:%02.0f/%02d m", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit)
 	end
 
     local b = config["borderThickness"]
     local b_offset = b << 1 -- Fast multiply by 2
     local textVerticalOffset = (config["h"] - 39) >> 1 -- Fast div by 2, font size is 14
+    
+    local text = ""
+    if timeLimit == 0 then
+        text = "No\nTime\nLimit"
+    else
+        text = string.format("%02d:%02.0f\nof\n%02d:00", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit)
+    end
 
 	draw.filled_rect(config["x"] - b, config["y"] - b, config["w"] + b_offset, config["h"] + b_offset, config["gaugeColor"])
 	draw.filled_rect(config["x"], config["y"], config["w"], config["h"], config["barColor"])
-	draw.text(
-        string.format("%02d:%02.0f\n   of\n%02d:00", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit), 
-        config["x"] + 5, config["y"] + textVerticalOffset, 0xFFFFFFFF
-    )
+	draw.text(text, config["x"] + 5, config["y"] + textVerticalOffset, 0xFFFFFFFF)
 end
 
 local function drawQuestTimerPPConfigWindow()
