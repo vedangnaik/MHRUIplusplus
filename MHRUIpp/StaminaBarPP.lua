@@ -17,13 +17,13 @@ local function initDefaults()
 end
 
 -- Load local profile
-local config_file_name = "MHRUIpp_Profiles\\StaminaBarPP.json"
+local config_file_name = "MHRUIpp_Profiles\\StaminaBar++.json"
 local config = {}
 local config_changed = false
 (function()
     loaded_config = json.load_file(config_file_name)
     if loaded_config == nil then
-        log.error("[MHRUIpp] Stamina Bar config not found, using default values.")
+        log.error("[MHRUIpp] Stamina Bar++ config not found, using default values.")
         config = initDefaults()
         json.dump_file(config_file_name, config)
     else
@@ -55,7 +55,7 @@ local function drawStaminaBarPPConfigWindow()
 	if not showStaminaBarPPConfigWindow then
         if config_changed then
             if not json.dump_file(config_file_name, config) then
-                log.error("[MHRUIpp] Stamina Bar config failed, saving default values.")
+                log.error("[MHRUIpp] Stamina Bar++ config failed, saving default values.")
                 config = initDefaults()
                 json.dump_file(config_file_name, config)
             end
