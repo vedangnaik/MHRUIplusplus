@@ -3,7 +3,6 @@ require("MHRUIpp/helpers")
 -- Global
 showQuestTimerPPConfigWindow = false
 
--- Default values for Health Bar++
 local function initDefaults()
     local c = {}
     c.x = 5
