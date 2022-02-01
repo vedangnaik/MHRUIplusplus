@@ -13,6 +13,7 @@ local function initDefaults()
     c["borderThickness"] = 2
     c["gaugeColor"] = "0xAA000000"
     c["barColor"] = "0xAA228B22"
+    c["show"] = true
     return c
 end
 
@@ -50,7 +51,7 @@ function drawHealthBarPP()
 end
 
 local function drawHealthBarPPConfigWindow()
-    showHealthBarPPConfigWindow = imgui.begin_window("Configure MHRUI++ Health Bar", true, 0x10120)
+    showHealthBarPPConfigWindow = imgui.begin_window("Configure Health Bar++", true, 0x10120)
 	if not showHealthBarPPConfigWindow then
         if config_changed then
             if not json.dump_file(config_file_name, config) then
@@ -64,9 +65,13 @@ local function drawHealthBarPPConfigWindow()
 	end
     
     local changed = false;
-    changed, config["x"] = imgui.drag_int("X coord", config["x"], 2, 0, 10000)
+    changed, config["show"] = imgui.checkbox("Show?", config["show"])
     config_changed = config_changed or changed
-    changed, config["y"] = imgui.drag_int("Y coord", config["y"], 2, 0, 10000)
+    imgui.new_line()
+    
+    changed, config["x"] = imgui.drag_int("X position", config["x"], 2, 0, 10000)
+    config_changed = config_changed or changed
+    changed, config["y"] = imgui.drag_int("Y position", config["y"], 2, 0, 10000)
     config_changed = config_changed or changed
     changed, config["w"] = imgui.drag_int("Width", config["w"], 2, 0, 10000)
     config_changed = config_changed or changed
@@ -87,7 +92,7 @@ local function drawHealthBarPPConfigWindow()
 end
 
 re.on_frame(function()
-	if showMHRUIpp then
+	if showMHRUIpp and config["show"] then
 		drawHealthBarPP()
 	end
 

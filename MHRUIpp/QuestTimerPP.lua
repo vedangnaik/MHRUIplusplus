@@ -13,6 +13,7 @@ local function initDefaults()
     c["borderThickness"] = 2
     c["gaugeColor"] = "0xAA000000"
     c["barColor"] = "0xAAFFC5EE"
+    c["show"] = true
     return c
 end
 
@@ -59,7 +60,7 @@ function drawQuestTimerPP()
 end
 
 local function drawQuestTimerPPConfigWindow()
-    showQuestTimerPPConfigWindow = imgui.begin_window("Configure MHRUI++ Stamina Bar", true, 0x10120)
+    showQuestTimerPPConfigWindow = imgui.begin_window("Configure Quest Timer++", true, 0x10120)
 	if not showQuestTimerPPConfigWindow then
         if config_changed then
             if not json.dump_file(config_file_name, config) then
@@ -73,6 +74,10 @@ local function drawQuestTimerPPConfigWindow()
 	end
     
     local changed = false;
+    changed, config["show"] = imgui.checkbox("Show?", config["show"])
+    config_changed = config_changed or changed
+    imgui.new_line()
+
     changed, config["x"] = imgui.drag_int("X coord", config["x"], 2, 0, 10000)
     config_changed = config_changed or changed
     changed, config["y"] = imgui.drag_int("Y coord", config["y"], 2, 0, 10000)
@@ -96,7 +101,7 @@ local function drawQuestTimerPPConfigWindow()
 end
 
 re.on_frame(function()
-	if showMHRUIpp then
+	if showMHRUIpp and config["show"] then
 		drawQuestTimerPP()
 	end
 
