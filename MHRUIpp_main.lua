@@ -8,13 +8,13 @@
 -- Find way to remove top-right monster tracker thing
 
 require("MHRUIpp/helpers")
-require("MHRUIpp/CloseUI")
 require("MHRUIpp/StaminaBarPP")
 require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/QuestTimerPP")
+require("MHRUIpp/DebuffIndicatorPP")
 
 -- Put all elements in array and load their configs
-local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP }
+local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP }
 for _, elementPP in ipairs(elementPPs) do elementPP:loadConfig() end
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
@@ -58,10 +58,14 @@ re.on_draw_ui(function()
         if imgui.button("Configure Quest Timer++") then
 			QuestTimerPP:toggleConfigWindowVisibility()
 		end
+        if imgui.button("Configure Debuff Indicator++") then
+			DebuffIndicatorPP:toggleConfigWindowVisibility()
+		end
 	end
 end)
 
 re.on_frame(function()
+    if showMHRUIpp then closeUI() end
     for _, elementPP in ipairs(elementPPs) do
         if showMHRUIpp and elementPP:isVisible() then elementPP:draw() end
         if elementPP:isConfigWindowVisible() then elementPP:drawConfigWindow() end
