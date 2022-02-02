@@ -1,3 +1,5 @@
+require("MHRUIpp/helpers")
+
 ElementPPBase = {
     -- Holds the default config for "Reset Defaults"
     defaults = {},
@@ -9,18 +11,23 @@ ElementPPBase = {
     -- Flag to show/hide config window
     configWindowVisible = false,
 
+    -- Font this element uses
+    font,
+
     new = function(self, cfgFilename, defaults)
         o = {}
         setmetatable(o, self)
         self.__index = self
         o.cfgFilename = o.cfgFilepath .. (cfgFilename or "")
         o.defaults = defaults or {}
-        -- Add the visible key to defaults if it isn't already there.
+        -- Add visible and fontSize keys to defaults if they aren't already there.
         o.defaults.visible = o.defaults.visible or true
+        o.defaults.fontSize = o.defaults.fontSize or 14
         return o
     end,
 
-    loadConfig = function(self)
+    setup = function(self)
+        -- Load the config first
         loadedConfig = json.load_file(self.cfgFilepath)
         if loadedConfig == nil then
             self.cfg = self.defaults
@@ -30,6 +37,8 @@ ElementPPBase = {
             -- Add the visible key to the loaded config in case it doesn't have it.
             self.cfg.visible = self.cfg.visible or true
         end
+        -- Then load the font
+        o.font = imgui.load_font(fontFilepath, o.defaults.fontSize)
     end,
 
     isVisible = function(self)
@@ -42,5 +51,19 @@ ElementPPBase = {
 
     isConfigWindowVisible = function(self)
         return self.cfgWinVisible
+    end,
+
+    save = function(self)
+        -- Save the config to disk
+        if self.cfgChanged then
+            if not json.dump_file(self.cfgFilepath, self.cfg) then
+                self.cfg = self.defaults
+                json.dump_file(self.cfgFilepath, self.cfg)
+            end
+        end
+        -- Reset the font field in case font size was changed
+        self.font = imgui.load_font(fontFilepath, self.cfg.fontSize)
+        -- Reset the flag
+        self.cfgChanged = false
     end
 }
