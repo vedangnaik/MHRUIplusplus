@@ -14,6 +14,7 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
+fontFilepath = "Cascadia.ttf"
 Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
 
 -- Helper functions

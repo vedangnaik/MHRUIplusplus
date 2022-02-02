@@ -13,9 +13,12 @@ require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/QuestTimerPP")
 require("MHRUIpp/DebuffIndicatorPP")
 
--- Put all elements in array and load their configs
+-- Put all elements in array and set them up.
 local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP }
-for _, elementPP in ipairs(elementPPs) do elementPP:loadConfig() end
+for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
+
+-- Load custom font
+local font = imgui.load_font(fontFilepath, 14)
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
 local showMHRUIpp = true
@@ -68,6 +71,10 @@ re.on_frame(function()
     if showMHRUIpp then closeUI() end
     for _, elementPP in ipairs(elementPPs) do
         if showMHRUIpp and elementPP:isVisible() then elementPP:draw() end
-        if elementPP:isConfigWindowVisible() then elementPP:drawConfigWindow() end
+        if elementPP:isConfigWindowVisible() then 
+            if not elementPP:drawConfigWindow() then
+                elementPP:save()
+            end
+        end
     end
 end)
