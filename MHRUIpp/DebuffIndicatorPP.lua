@@ -2,7 +2,7 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 DebuffIndicatorPP = ElementPPBase:new():new("DebuffIndicator++.json", {
-    x                  = 110,
+    x                  = 115,
     y                  = 5,
     borderWidth        = 2,
     borderColor        = "0xAA000000",
@@ -33,13 +33,12 @@ DebuffIndicatorPP.debuffMsgs = {
 
 function DebuffIndicatorPP:draw()
     local debuff = getPlayer():call("get_PlayerData"):get_field("_condition"):call("get_DebuffCondition")
-    log_str = debuff
     if debuff ~= 0 or self.cfg.visibleNotDebuffed then
         local text = self.debuffMsgs[debuff] or "Unknown"
 
-        local w = (string.len(text) * self.cfg.fontSize >> 1) + 10 -- TODO: Swap with monospaced font and recalculate width
+        local w = (string.len(text) * self.cfg.fontSize >> 1) + 10
         local h = self.cfg.fontSize + 6
-        local b_offset = self.cfg.borderWidth << 1 -- Fast multiply by 2
+        local b_offset = self.cfg.borderWidth << 1
 
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + b_offset, h + b_offset, self.cfg.borderColor)
@@ -68,7 +67,6 @@ function DebuffIndicatorPP:drawConfigWindow()
     self.cfgChanged = self.cfgChanged or changed
     changed, self.cfg.borderWidth = imgui.drag_int("Border", self.cfg.borderWidth, 1, 0, 50)
     self.cfgChanged = self.cfgChanged or changed
-    -- TODO: Add bgColor picker
     imgui.text("Color pickers coming soon!")
     imgui.new_line()
     
