@@ -10,11 +10,11 @@
 require("MHRUIpp/helpers")
 require("MHRUIpp/CloseUI")
 require("MHRUIpp/StaminaBarPP")
--- require("MHRUIpp/HealthBarPP")
+require("MHRUIpp/HealthBarPP")
 -- require("MHRUIpp/QuestTimerPP")
 
 -- Put all elements in array and load their configs
-local elementPPs = { StaminaBarPP }
+local elementPPs = { StaminaBarPP, HealthBarPP }
 for _, elementPP in ipairs(elementPPs) do elementPP:loadConfig() end
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
@@ -49,9 +49,9 @@ end, function(retval) end)
 -- Main config window handler
 re.on_draw_ui(function()
 	if imgui.tree_node("Configure MHRUI++") then
-		-- if imgui.button("Configure Health Bar++") then
-		-- 	showHealthBarPPConfigWindow = not showHealthBarPPConfigWindow
-		-- end
+		if imgui.button("Configure Health Bar++") then
+			HealthBarPP:toggleConfigWindowVisibility()
+		end
         if imgui.button("Configure Stamina Bar++") then
 			StaminaBarPP:toggleConfigWindowVisibility()
 		end
