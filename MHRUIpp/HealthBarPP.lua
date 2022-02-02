@@ -3,8 +3,8 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 HealthBarPP = ElementPPBase:new():new("HealthBar++.json", {
-    x = 50,
-    y = 5,
+    x = 5,
+    y = 30,
     w = 300,
     h = 20,
     borderThickness = 2,

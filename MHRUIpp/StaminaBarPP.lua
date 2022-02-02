@@ -3,8 +3,8 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 StaminaBarPP = ElementPPBase:new():new("StaminaBar++.json", {
-    x = 50,
-    y = 30,
+    x = 5,
+    y = 55,
     w = 350,
     h = 20,
     borderThickness = 2,
@@ -26,7 +26,7 @@ function StaminaBarPP:draw()
 	draw.filled_rect(self.cfg.x - b, self.cfg.y - b, scaled_width + b_offset, self.cfg.h + b_offset, self.cfg.gaugeColor)
 	draw.filled_rect(self.cfg.x, self.cfg.y, scaled_width * currentStamina / maxStamina, self.cfg.h, self.cfg.barColor)
 	draw.text(
-        string.format("Stamina: %.0f/%.0f \t Max reduction in %.02f s", currentStamina, maxStamina, timeUntilStaminaMaxReduces), 
+        string.format("Stamina: %.0f/%.0f for %.02f s", currentStamina, maxStamina, timeUntilStaminaMaxReduces), 
         self.cfg.x + 5, self.cfg.y + textVerticalOffset, 0xFFFFFFFF
     )
 end
