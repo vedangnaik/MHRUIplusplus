@@ -34,9 +34,9 @@ function HealthBarPP:drawConfigWindow()
     self.cfgWinVisible = imgui.begin_window("Configure Health Bar++", true, 0x10120)
 	if not self.cfgWinVisible then
         if self.cfgChanged then
-            if not json.dump_file(self.cfgFilename, self.cfg) then
+            if not json.dump_file(self.cfgFilepath, self.cfg) then
                 self.cfg = self.defaults
-                json.dump_file(self.cfgFilename, self.config)
+                json.dump_file(self.cfgFilepath, self.config)
             end
         end
         self.cfgChanged = false

@@ -53,9 +53,9 @@ function DebuffIndicatorPP:drawConfigWindow()
     self.cfgWinVisible = imgui.begin_window("Configure Debuff Indicator++", true, 0x10120)
 	if not self.cfgWinVisible then
         if self.cfgChanged then
-            if not json.dump_file(self.cfgFilename, self.cfg) then
+            if not json.dump_file(self.cfgFilepath, self.cfg) then
                 self.cfg = self.defaults
-                json.dump_file(self.cfgFilename, self.cfg)
+                json.dump_file(self.cfgFilepath, self.cfg)
             end
         end
         self.cfgChanged = false

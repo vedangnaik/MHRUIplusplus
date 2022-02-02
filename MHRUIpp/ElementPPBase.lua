@@ -4,16 +4,16 @@ ElementPPBase = {
     cfg = {},
     -- Flag to save config file
     cfgChanged = false,
-    cfgFilename = "MHRUIpp_Profiles\\",
+    cfgFilepath = "MHRUIpp_Profiles\\",
 
     -- Flag to show/hide config window
     configWindowVisible = false,
 
-    new = function(self, config_file_name, defaults)
+    new = function(self, cfgFilename, defaults)
         o = {}
         setmetatable(o, self)
         self.__index = self
-        o.cfgFilename = o.cfgFilename .. (config_file_name or "")
+        o.cfgFilename = o.cfgFilepath .. (cfgFilename or "")
         o.defaults = defaults or {}
         -- Add the visible key to defaults if it isn't already there.
         o.defaults.visible = o.defaults.visible or true
@@ -21,10 +21,10 @@ ElementPPBase = {
     end,
 
     loadConfig = function(self)
-        loadedConfig = json.load_file(self.cfgFilename)
+        loadedConfig = json.load_file(self.cfgFilepath)
         if loadedConfig == nil then
             self.cfg = self.defaults
-            json.dump_file(self.cfgFilename, self.cfg)
+            json.dump_file(self.cfgFilepath, self.cfg)
         else
             self.cfg = loadedConfig
             -- Add the visible key to the loaded config in case it doesn't have it.
