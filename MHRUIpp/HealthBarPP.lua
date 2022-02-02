@@ -3,13 +3,13 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 HealthBarPP = ElementPPBase:new():new("HealthBar++.json", {
-    x = 5,
-    y = 30,
-    w = 300,
-    h = 20,
+    x               = 5,
+    y               = 30,
+    w               = 300,
+    h               = 20,
     borderThickness = 2,
-    gaugeColor = "0xAA000000",
-    barColor = "0xAA228B22"
+    gaugeColor      = "0xAA000000",
+    barColor        = "0xAA228B22"
 })
 
 function HealthBarPP:draw()

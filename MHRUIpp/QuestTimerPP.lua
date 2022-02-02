@@ -5,11 +5,11 @@ require("MHRUIpp/ElementPPBase")
 QuestTimerPP = ElementPPBase:new():new("QuestTimer++.json", {
     x = 5,
     y = 5,
-    w = 98,
+    w = 100,
     h = 20,
     borderThickness = 2,
-    gaugeColor = "0xAA000000",
-    barColor = "0xAAFFC5EE"
+    borderColor = "0xAA000000",
+    color = "0xAAFFC5EE"
 })
 
 function QuestTimerPP:draw()
@@ -34,8 +34,8 @@ function QuestTimerPP:draw()
         text = string.format("%02d:%02.0f / %02d:00", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit)
     end
 
-	draw.filled_rect(self.cfg.x - b, self.cfg.y - b, self.cfg.w + b_offset, self.cfg.h + b_offset, self.cfg.gaugeColor)
-	draw.filled_rect(self.cfg.x, self.cfg.y, self.cfg.w, self.cfg.h, self.cfg.barColor)
+	draw.filled_rect(self.cfg.x - b, self.cfg.y - b, self.cfg.w + b_offset, self.cfg.h + b_offset, self.cfg.borderColor)
+	draw.filled_rect(self.cfg.x, self.cfg.y, self.cfg.w, self.cfg.h, self.cfg.color)
 	draw.text(text, self.cfg.x + 5, self.cfg.y + textVerticalOffset, 0xFFFFFFFF)
 end
 

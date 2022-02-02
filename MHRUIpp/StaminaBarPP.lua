@@ -3,13 +3,13 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 StaminaBarPP = ElementPPBase:new():new("StaminaBar++.json", {
-    x = 5,
-    y = 55,
-    w = 350,
-    h = 20,
+    x               = 5,
+    y               = 55,
+    w               = 350,
+    h               = 20,
     borderThickness = 2,
-    gaugeColor = "0xAA000000",
-    barColor = "0xAA23C5EE",
+    gaugeColor      = "0xAA000000",
+    barColor        = "0xAA23C5EE",
 })
 
 function StaminaBarPP:draw()
