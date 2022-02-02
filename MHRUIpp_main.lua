@@ -9,14 +9,16 @@
 
 require("MHRUIpp/helpers")
 require("MHRUIpp/CloseUI")
-require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/StaminaBarPP")
-require("MHRUIpp/QuestTimerPP")
+-- require("MHRUIpp/HealthBarPP")
+-- require("MHRUIpp/QuestTimerPP")
 
-log.info("[MHRUIpp] Loading MHR UI++...")
+-- Put all elements in array and load their configs
+local elementPPs = { StaminaBarPP }
+for _, elementPP in ipairs(elementPPs) do elementPP:loadConfig() end
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
-showMHRUIpp = true
+local showMHRUIpp = true
 
 -- Hook to change in Kamura Area
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
@@ -45,21 +47,23 @@ sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
 end, function(retval) end)
 
 -- Main config window handler
-local function drawMHRUIppConfigDropdown()
-	if imgui.tree_node("Configure MHRUI++") then
-		if imgui.button("Configure Health Bar++") then
-			showHealthBarPPConfigWindow = not showHealthBarPPConfigWindow
-		end
-        if imgui.button("Configure Stamina Bar++") then
-			showStaminaBarPPConfigWindow = not showStaminaBarPPConfigWindow
-		end
-        if imgui.button("Configure Quest Timer++") then
-			showQuestTimerPPConfigWindow = not showQuestTimerPPConfigWindow
-		end
-	end
-end
-
--- Draw config drop down
 re.on_draw_ui(function()
-	drawMHRUIppConfigDropdown()
+	if imgui.tree_node("Configure MHRUI++") then
+		-- if imgui.button("Configure Health Bar++") then
+		-- 	showHealthBarPPConfigWindow = not showHealthBarPPConfigWindow
+		-- end
+        if imgui.button("Configure Stamina Bar++") then
+			StaminaBarPP:toggleConfigWindowVisibility()
+		end
+        -- if imgui.button("Configure Quest Timer++") then
+		-- 	showQuestTimerPPConfigWindow = not showQuestTimerPPConfigWindow
+		-- end
+	end
+end)
+
+re.on_frame(function()
+    for _, elementPP in ipairs(elementPPs) do
+        if showMHRUIpp and elementPP:isVisible() then elementPP:draw() end
+        if elementPP:isConfigWindowVisible() then elementPP:drawConfigWindow() end
+    end
 end)
