@@ -17,9 +17,6 @@ require("MHRUIpp/DebuffIndicatorPP")
 local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP }
 for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
 
--- Load custom font
-local font = imgui.load_font(fontFilepath, 14)
-
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
 local showMHRUIpp = true
 

@@ -18,7 +18,7 @@ ElementPPBase = {
         o = {}
         setmetatable(o, self)
         self.__index = self
-        o.cfgFilename = o.cfgFilepath .. (cfgFilename or "")
+        o.cfgFilepath = o.cfgFilepath .. (cfgFilename or "")
         o.defaults = defaults or {}
         -- Add visible and fontSize keys to defaults if they aren't already there.
         o.defaults.visible = o.defaults.visible or true
@@ -38,7 +38,7 @@ ElementPPBase = {
             self.cfg.visible = self.cfg.visible or true
         end
         -- Then load the font
-        o.font = imgui.load_font(fontFilepath, o.defaults.fontSize)
+        self.font = imgui.load_font(fontFilepath, o.defaults.fontSize)
     end,
 
     isVisible = function(self)
