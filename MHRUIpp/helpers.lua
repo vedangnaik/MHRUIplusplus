@@ -15,8 +15,11 @@ VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
 PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
+-- Font file path and aspect ratio (width to height). Change on per font basis
 fontFilepath = "Cascadia.ttf"
+fontAspectRatio = 0.5
 Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
+-- Global offset for text inside widgets. Might be made customizable later.
 textHorizOffset = 5
 textVertOffset = 3
 -- Stamina isn't reported in seconds for some reason :|

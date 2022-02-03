@@ -21,7 +21,7 @@ function QuestTimerPP:draw()
 		elapsedTimeSeconds = questManager:call("getQuestElapsedTimeSec");
 	end
 
-    local w = (13 * self.cfg.fontSize >> 1) + (textHorizOffset << 1) -- Hardcoded string length
+    local w = (13 * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1) -- Hardcoded string length
     local h = self.cfg.fontSize + (textVertOffset << 1)
     local borderOffset = self.cfg.borderWidth << 1
     local text = ""
