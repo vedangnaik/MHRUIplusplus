@@ -3,29 +3,30 @@ require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
 HealthBarPP = ElementPPBase:new():new("HealthBar++.json", {
-    x           = 5,
-    y           = 30,
-    w           = 300,
-    borderWidth = 2,
-    borderColor = "0xAA000000",
-    gaugeColor  = "0xAA228B22",
-    textColor   = "0xFFFFFFFF"
+    x                  = 5,
+    y                  = 30,
+    w                  = 300,
+    borderWidth        = 2,
+    borderColor        = "0xAA000000",
+    currentHPColor     = "0xAA228B22",
+    recoverableHPColor = "0xAA534BD5",
+    textColor          = "0xFFFFFFFF",
 })
 
 function HealthBarPP:draw()
-    local playerData = getPlayer():call("get_PlayerData")
-    local currentHP = playerData:get_field("_r_Vital")
-    local maxHP = playerData:get_field("_vitalMax")
-
     local h = self.cfg.fontSize + (textVertOffset << 1) 
-    local b_offset = self.cfg.borderWidth << 1
-    local scaled_width = self.cfg.w * (maxHP / 100)
+    local borderOffset = self.cfg.borderWidth << 1
+    -- Scaled width of entire gauge.
+    local gaugeWidth = self.cfg.w * (self.maxHP / 100)
+    local recoverableHPWidth = gaugeWidth * (self.recoverableHP / self.maxHP)
+    local currentHPWidth = gaugeWidth * (self.currentHP / self.maxHP) 
 
     imgui.push_font(self.font)
-	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, scaled_width + b_offset, h + b_offset, self.cfg.borderColor)
-	draw.filled_rect(self.cfg.x, self.cfg.y, scaled_width * currentHP / maxHP, h, self.cfg.gaugeColor)
+	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, gaugeWidth + borderOffset, h + borderOffset, self.cfg.borderColor)
+	draw.filled_rect(self.cfg.x, self.cfg.y, recoverableHPWidth, h, self.cfg.recoverableHPColor)
+	draw.filled_rect(self.cfg.x, self.cfg.y, currentHPWidth, h, self.cfg.currentHPColor)
 	draw.text(
-        string.format("Health: %d/%d", currentHP, maxHP), 
+        string.format("Health: %d/%d", self.currentHP, self.maxHP), 
         self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor
     )
     imgui.pop_font()
@@ -62,3 +63,23 @@ function HealthBarPP:drawConfigWindow()
 
     return true
 end
+
+function HealthBarPP:setup()
+    -- Call superclass's setup first.
+    getmetatable(self).__index.setup(self)
+    -- Set up fields for HP. Init to default max.
+    self.maxHP = 100
+    self.currentHP = 100
+    self.recoverableHP = 100
+    -- Then set up our hook into PlayerBase to get all unencrypted HP values.
+    sdk.hook(PlayerBase_typedef:get_method("update"),
+        function(args)
+            local playerData = sdk.to_managed_object(args[2]):call("get_PlayerData")
+            self.maxHP = playerData:get_field("_vitalMax")
+            self.recoverableHP = playerData:get_field("_r_Vital")
+            self.currentHP = playerData:call("get__vital")
+        end,
+        function(retval) end
+    )
+end
+
