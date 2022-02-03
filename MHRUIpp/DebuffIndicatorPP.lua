@@ -35,7 +35,6 @@ function DebuffIndicatorPP:draw()
     local debuff = getPlayer():call("get_PlayerData"):get_field("_condition"):call("get_DebuffCondition")
     if debuff ~= 0 or self.cfg.visibleNotDebuffed then
         local text = self.debuffMsgs[debuff] or "Unknown"
-
         local w = (string.len(text) * self.cfg.fontSize >> 1) + (textHorizOffset << 1)
         local h = self.cfg.fontSize + (textVertOffset << 1)
         local b_offset = self.cfg.borderWidth << 1
