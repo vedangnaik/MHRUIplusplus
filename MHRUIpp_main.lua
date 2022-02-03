@@ -1,12 +1,3 @@
--- TODO: 
--- Get current/max health and stamina for player
--- Get quest timer and elapsed time (can look at existing mods for this)
--- Get monster health and place in convenient location (existing mods)
--- If possible, get monster-specific part values/statuses, etc.
--- If possible, reorganize Charge Blade weapon UI
--- Get current/max sharpness value for weapon
--- Find way to remove top-right monster tracker thing
-
 require("MHRUIpp/helpers")
 require("MHRUIpp/StaminaBarPP")
 require("MHRUIpp/HealthBarPP")
@@ -20,7 +11,7 @@ for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
 local showMHRUIpp = false
 
--- Hook to change in Kamura Area
+-- Hook to change in Kamura Area.
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
 function(args)
 	if isInTrainingArea() then
@@ -30,12 +21,12 @@ function(args)
 	end
 end, function(retval) end)
 
--- Hook into quest start
+-- Hook into quest start.
 sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
 	showMHRUIpp = true
 end, function(retval) end)
 
--- Hook into quest end/return/clear/etc
+-- Hook into quest end/return/clear/etc.
 sdk.hook(QuestManager_typedef:get_method("onQuestEnd"), function(args)
 	showMHRUIpp = false
 end, function(retval) end)
@@ -46,7 +37,7 @@ sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
 	showMHRUIpp = false
 end, function(retval) end)
 
--- Main config window handler
+-- Main config window handler.
 re.on_draw_ui(function()
 	if imgui.tree_node("Configure MHRUI++") then
 		if imgui.button("Configure Health Bar++") then
@@ -64,6 +55,7 @@ re.on_draw_ui(function()
 	end
 end)
 
+-- Draw each element on each frame.
 re.on_frame(function()
     if showMHRUIpp then closeUI() end
     for _, elementPP in ipairs(elementPPs) do
