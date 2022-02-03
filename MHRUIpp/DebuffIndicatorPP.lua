@@ -8,7 +8,7 @@ DebuffIndicatorPP = ElementPPBase:new():new("DebuffIndicator++.json", {
     borderColor        = "0xAA000000",
     bgColor            = "0xAA621EE8",
     textColor          = "0xFFFFFFFF",
-    visibleNotDebuffed = true,
+    visibleNotDebuffed = false,
 })
 
 DebuffIndicatorPP.debuffMsgs = {
@@ -37,10 +37,10 @@ function DebuffIndicatorPP:draw()
         local text = self.debuffMsgs[debuff] or "Unknown"
         local w = (string.len(text) * self.cfg.fontSize >> 1) + (textHorizOffset << 1)
         local h = self.cfg.fontSize + (textVertOffset << 1)
-        local b_offset = self.cfg.borderWidth << 1
+        local borderOffset = self.cfg.borderWidth << 1
 
         imgui.push_font(self.font)
-        draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + b_offset, h + b_offset, self.cfg.borderColor)
+        draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.cfg.borderColor)
         draw.filled_rect(self.cfg.x, self.cfg.y, w, h, self.cfg.bgColor)
         draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
         imgui.pop_font()
