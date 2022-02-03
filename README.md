@@ -4,16 +4,19 @@ Have you ever wished that Monster Hunter Rise's UI was customizable? I mean, do 
 
 MHR User Interface++ (abbreviated MHRUIpp) replaces MHR's default un-resizable, fixed UI with a set of highly customizable widgets that you can tune to your heart's content. Currently, the mod comes with replacements for the health gauge, the stamina gauge, the debuff indicator, and the quest timer:
 
-![Screenshot (22)](https://user-images.githubusercontent.com/25436568/152430837-d3ec7ade-19a4-4101-b5ba-4c56462a9813.png)
-<p align="center"><em>On expedition in the Lava Caverns, showcasing unlimited quest time, Magma debuff, and recoverable health</em></p>
+![Screenshot (27)](https://user-images.githubusercontent.com/25436568/152444778-a085a53c-a98b-460e-a607-2177786a2864.png)
+
+<p align="center"><em>An expedition showcasing unlimited quest time, Magma debuff, and recoverable health</em></p>
 
 And this list is only growing! Planned widgets include:
 
-* A revamped sharpness indicator
-* A less-intrusive monster tracker
-* Integrated monster health/stamina/status gauges a la [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) and [Status Bars](https://www.nexusmods.com/monsterhunterrise/mods/113)
-* [If possible] A more detailed minimap
-* [If possible] Weapon-specific UI e.g. custom Charge Blade phials, Longsword gauge, etc.
+- [ ] A revamped sharpness indicator
+- [ ] A less-intrusive monster tracker
+- [ ] Integrated monster health/stamina/status gauges a la [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) and [Status Bars](https://www.nexusmods.com/monsterhunterrise/mods/113)
+- [ ] [If possible] A more detailed minimap
+- [ ] [If possible] Weapon-specific UI e.g. custom Charge Blade phials, Longsword gauge, etc.
+
+Feel free to make suggestions for more widgets!
 
 ## Setup
 
