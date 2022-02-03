@@ -29,14 +29,14 @@ ElementPPBase = {
     setup = function(self)
         -- Load the config first
         self.cfg = json.load_file(self.cfgFilepath)
-        if self.cfg == nil then
+        if next(self.cfg) == nil then
             self:restoreDefaults()
             json.dump_file(self.cfgFilepath, self.cfg)
         end
         -- Add the visible key to the loaded config in case it doesn't have it.
         self.cfg.visible = self.cfg.visible or true
         -- Then load the font
-        self.font = imgui.load_font(fontFilepath, o.defaults.fontSize)
+        self.font = imgui.load_font(fontFilepath, self.defaults.fontSize)
     end,
 
     isVisible = function(self)
