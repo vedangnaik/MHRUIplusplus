@@ -18,7 +18,7 @@ local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP 
 for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
-local showMHRUIpp = true
+local showMHRUIpp = false
 
 -- Hook to change in Kamura Area
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
