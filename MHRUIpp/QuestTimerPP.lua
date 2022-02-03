@@ -21,8 +21,8 @@ function QuestTimerPP:draw()
 		elapsedTimeSeconds = questManager:call("getQuestElapsedTimeSec");
 	end
 
-    local w = (13 * self.cfg.fontSize >> 1) + 10 -- Hardcoded string length
-    local h = self.cfg.fontSize + 6
+    local w = (13 * self.cfg.fontSize >> 1) + (textHorizOffset << 1) -- Hardcoded string length
+    local h = self.cfg.fontSize + (textVertOffset << 1)
     local b_offset = self.cfg.borderWidth << 1
     local text = ""
     
@@ -35,7 +35,7 @@ function QuestTimerPP:draw()
     imgui.push_font(self.font)
 	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + b_offset, h + b_offset, self.cfg.borderColor)
 	draw.filled_rect(self.cfg.x, self.cfg.y, w, h, self.cfg.bgColor)
-	draw.text(text, self.cfg.x + 5, self.cfg.y + 3, self.cfg.textColor)
+	draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
     imgui.pop_font()
 end
 

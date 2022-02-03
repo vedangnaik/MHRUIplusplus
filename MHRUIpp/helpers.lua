@@ -16,6 +16,8 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
 fontFilepath = "Cascadia.ttf"
 Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
+textHorizOffset = 5
+textVertOffset = 3
 
 -- Helper functions
 function getPlayer()
