@@ -71,7 +71,7 @@ function DebuffIndicatorPP:drawConfigWindow()
     imgui.new_line()
     
     if imgui.button("Reset Defaults") then
-        self.cfg = self.defaults
+        self:restoreDefaults()
         self.cfgChanged = true
     end
 

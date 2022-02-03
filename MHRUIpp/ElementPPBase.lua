@@ -28,15 +28,13 @@ ElementPPBase = {
 
     setup = function(self)
         -- Load the config first
-        loadedConfig = json.load_file(self.cfgFilepath)
-        if loadedConfig == nil then
-            self.cfg = self.defaults
+        self.cfg = json.load_file(self.cfgFilepath)
+        if self.cfg == nil then
+            self:restoreDefaults()
             json.dump_file(self.cfgFilepath, self.cfg)
-        else
-            self.cfg = loadedConfig
-            -- Add the visible key to the loaded config in case it doesn't have it.
-            self.cfg.visible = self.cfg.visible or true
         end
+        -- Add the visible key to the loaded config in case it doesn't have it.
+        self.cfg.visible = self.cfg.visible or true
         -- Then load the font
         self.font = imgui.load_font(fontFilepath, o.defaults.fontSize)
     end,
@@ -57,7 +55,7 @@ ElementPPBase = {
         -- Save the config to disk
         if self.cfgChanged then
             if not json.dump_file(self.cfgFilepath, self.cfg) then
-                self.cfg = self.defaults
+                self:restoreDefaults()
                 json.dump_file(self.cfgFilepath, self.cfg)
             end
         end
@@ -65,5 +63,10 @@ ElementPPBase = {
         self.font = imgui.load_font(fontFilepath, self.cfg.fontSize)
         -- Reset the flag
         self.cfgChanged = false
+    end,
+
+    restoreDefaults = function(self)
+        self.cfg = {}
+        for k, v in pairs(self.defaults) do self.cfg[k] = v end
     end
 }
