@@ -8,7 +8,7 @@ HealthBarPP = ElementPPBase:new():new("HealthBar++.json", {
     w           = 300,
     borderWidth = 2,
     borderColor = "0xAA000000",
-    barColor    = "0xAA228B22",
+    gaugeColor  = "0xAA228B22",
     textColor   = "0xFFFFFFFF"
 })
 
@@ -23,7 +23,7 @@ function HealthBarPP:draw()
 
     imgui.push_font(self.font)
 	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, scaled_width + b_offset, h + b_offset, self.cfg.borderColor)
-	draw.filled_rect(self.cfg.x, self.cfg.y, scaled_width * currentHP / maxHP, h, self.cfg.barColor)
+	draw.filled_rect(self.cfg.x, self.cfg.y, scaled_width * currentHP / maxHP, h, self.cfg.gaugeColor)
 	draw.text(
         string.format("Health: %d/%d", currentHP, maxHP), 
         self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor
