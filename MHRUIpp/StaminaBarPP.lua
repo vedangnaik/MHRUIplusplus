@@ -19,11 +19,11 @@ function StaminaBarPP:draw()
 	local timeUntilStaminaMaxReduces = playerData:get_field("_staminaMaxDownIntervalTimer")
 
     local h = self.cfg.fontSize + (textVertOffset << 1)
-    local b_offset = self.cfg.borderWidth << 1
+    local borderOffset = self.cfg.borderWidth << 1
     local scaled_width = self.cfg.w * (maxStamina / 3000)
 
     imgui.push_font(self.font)
-	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, scaled_width + b_offset, h + b_offset, self.cfg.borderColor)
+	draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, scaled_width + borderOffset, h + borderOffset, self.cfg.borderColor)
 	draw.filled_rect(self.cfg.x, self.cfg.y, scaled_width * currentStamina / maxStamina, h, self.cfg.gaugeColor)
 	draw.text(
         string.format("Stamina: %.0f/%.0f for %.02f s", currentStamina, maxStamina, timeUntilStaminaMaxReduces), 
