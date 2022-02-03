@@ -19,6 +19,8 @@ fontFilepath = "Cascadia.ttf"
 Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
 textHorizOffset = 5
 textVertOffset = 3
+-- Stamina isn't reported in seconds for some reason :|
+staminaUnitsToSeconds = 360 / 21600
 
 -- Helper functions
 function getPlayer()
