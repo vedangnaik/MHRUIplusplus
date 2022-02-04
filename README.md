@@ -24,8 +24,8 @@ Feel free to make suggestions for more widgets!
 
 1. Install REFramework from [NexusMods](https://www.nexusmods.com/monsterhunterrise/mods/26) or [GitHub Releases](https://github.com/praydog/REFramework/releases). 
 2. Download MHRUIpp from either:
-    - NexusMods: TODO
-    - GitHub Releases: TODO
+    - NexusMods: https://www.nexusmods.com/monsterhunterrise/mods/197
+    - GitHub Releases: https://github.com/vedangnaik/MHRUIplusplus/releases
 3. Extract the `reframework` folder into your MHRise installation folder. This is usually `<your Steam Library path>/steam/steamapps/common/MonsterHunterRise`. You can overwrite it if it already exists; your existing mods will be presevered.
 4. Start the game, and enjoy!
 
