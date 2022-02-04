@@ -74,7 +74,7 @@ function HealthBarPP:setup()
     -- Then set up our hook into PlayerBase to get all unencrypted HP values.
     sdk.hook(PlayerBase_typedef:get_method("update"),
         function(args)
-            local playerData = sdk.to_managed_object(args[2]):call("get_PlayerData")
+            local playerData = getPlayer():call("get_PlayerData")
             self.maxHP = playerData:get_field("_vitalMax")
             self.recoverableHP = playerData:get_field("_r_Vital")
             self.currentHP = playerData:call("get__vital")
