@@ -10,7 +10,7 @@ MHR User Interface++ (abbreviated MHRUIpp) replaces MHR's default un-resizable, 
 
 And this list is only growing! Planned widgets include:
 
-- [ ] A revamped sharpness indicator
+- [x] A revamped sharpness indicator
 - [ ] A less-intrusive monster tracker
 - [ ] Integrated monster health/stamina/status gauges a la [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) and [Status Bars](https://www.nexusmods.com/monsterhunterrise/mods/113)
 - [ ] [If possible] A more detailed minimap
