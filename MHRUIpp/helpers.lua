@@ -38,4 +38,10 @@ function closeUI()
     local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
     guiManager:call("closeHud") -- Disable Health bar, stamina bar, quest timer, etc.
     guiManager:call("closePartHud") -- Disable Palico and Palamute health
+    guiManager:call("closeHudSharpness") -- Disable Palico and Palamute health
 end
+
+-- log_str = ""
+-- re.on_draw_ui(function() 
+--     imgui.text(tostring(log_str))
+-- end)

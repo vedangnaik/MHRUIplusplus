@@ -3,9 +3,10 @@ require("MHRUIpp/StaminaBarPP")
 require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/QuestTimerPP")
 require("MHRUIpp/DebuffIndicatorPP")
+require("MHRUIpp/SharpnessGaugePP")
 
 -- Put all elements in array and set them up.
-local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP }
+local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP }
 for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
 
 -- Global variable that indicates whether MHRUIpp is being displayed or not.
@@ -51,6 +52,9 @@ re.on_draw_ui(function()
 		end
         if imgui.button("Configure Debuff Indicator++") then
 			DebuffIndicatorPP:toggleConfigWindowVisibility()
+		end
+        if imgui.button("Configure Sharpness Gauge++") then
+			SharpnessGaugePP:toggleConfigWindowVisibility()
 		end
 	end
 end)
