@@ -9,7 +9,7 @@ local function getStaticEnum(typename)
     return enum
 end
 
--- Useful globals
+-- Typedefs
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
@@ -24,14 +24,22 @@ textHorizOffset = 5
 textVertOffset = 3
 -- Stamina isn't reported in seconds for some reason :|
 staminaUnitsToSeconds = 360 / 21600
+-- Singletons
+PlayerManager = nil
+VillageAreaManager = nil
+QuestManager = nil
+GUIManager = nil
+GameKeyboard = nil
 
 -- Helper functions
 function getPlayer()
-  return sdk.get_managed_singleton("snow.player.PlayerManager"):call("findMasterPlayer")
+    if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
+    return PlayerManager:call("findMasterPlayer")
 end
 
 function isInTrainingArea()
-  return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo") == 5
+    if not VillageAreaManager then VillageAreaManager = sdk.get_managed_singleton("snow.VillageAreaManager") end
+    return VillageAreaManager:call("get__CurrentAreaNo") == 5
 end
 
 -- log_str = ""

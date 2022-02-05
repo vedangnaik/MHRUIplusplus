@@ -14,11 +14,11 @@ function QuestTimerPP:draw()
     local timeLimit = 0
     local elapsedTimeSeconds = 0
 
-    local questManager = sdk.get_managed_singleton("snow.QuestManager")
-	local activeQuestData = questManager:call("getActiveQuestData")
+    if not QuestManager then QuestManager = sdk.get_managed_singleton("snow.QuestManager") end
+	local activeQuestData = QuestManager:call("getActiveQuestData")
 	if activeQuestData then
 		timeLimit = activeQuestData:call("getTimeLimit")
-		elapsedTimeSeconds = questManager:call("getQuestElapsedTimeSec");
+		elapsedTimeSeconds = QuestManager:call("getQuestElapsedTimeSec");
 	end
 
     local w = (13 * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1) -- Hardcoded string length

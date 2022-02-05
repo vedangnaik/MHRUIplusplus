@@ -7,10 +7,10 @@ StockUIHandler = ElementPPBase:new():new("StockUIHandler.json", {
 })
 
 function StockUIHandler:draw()
-    local guiManager = sdk.get_managed_singleton("snow.gui.GuiManager")
-    if self.cfg.showHUD then guiManager:call("openHud") else guiManager:call("closeHud") end
-    if self.cfg.showBuddyHUD then guiManager:call("openPartHud") else guiManager:call("closePartHud") end
-    if self.cfg.showSharpnessHUD then guiManager:call("openHudSharpness") else guiManager:call("closeHudSharpness") end
+    if not GUIManager then GUIManager = sdk.get_managed_singleton("snow.gui.GuiManager") end
+    if self.cfg.showHUD then GUIManager:call("openHud") else GUIManager:call("closeHud") end
+    if self.cfg.showBuddyHUD then GUIManager:call("openPartHud") else GUIManager:call("closePartHud") end
+    if self.cfg.showSharpnessHUD then GUIManager:call("openHudSharpness") else GUIManager:call("closeHudSharpness") end
 end
 
 function StockUIHandler:drawConfigWindow()
