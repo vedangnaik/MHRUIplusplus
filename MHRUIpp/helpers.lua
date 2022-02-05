@@ -42,7 +42,21 @@ function isInTrainingArea()
     return VillageAreaManager:call("get__CurrentAreaNo") == 5
 end
 
--- log_str = ""
--- re.on_draw_ui(function() 
---     imgui.text(tostring(log_str))
--- end)
+function mergeTables(tables)
+    local t = {}
+    for _, table in ipairs(tables) do
+        for k, v in pairs(table) do
+            if t[k] and type(t[k]) == 'table' and type(v) == 'table' then
+                t[k] = mergeTables({t[k], v})
+            else
+                t[k] = v
+            end
+        end
+    end
+    return t
+end
+
+log_str = ""
+re.on_draw_ui(function() 
+    imgui.text(tostring(log_str))
+end)

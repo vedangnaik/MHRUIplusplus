@@ -1,14 +1,13 @@
 require("MHRUIpp/helpers")
-require("MHRUIpp/StaminaBarPP")
 require("MHRUIpp/HealthBarPP")
 require("MHRUIpp/QuestTimerPP")
 require("MHRUIpp/DebuffIndicatorPP")
 require("MHRUIpp/SharpnessGaugePP")
-require("MHRUIpp/StockUIHandler")
 
 -- Put all elements in array and set them up.
-local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP, StockUIHandler }
-for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
+StockUIHandler = require("MHRUIpp/StockUIHandler"):new()
+StaminaBarPP = require("MHRUIpp/StaminaBarPP"):new()
+local widgets = { StaminaBarPP }
 
 -- Variable that indicates whether a UI is being displayed or not.
 local showUI = true
@@ -65,11 +64,12 @@ re.on_draw_ui(function()
 end)
 
 re.on_frame(function()
-    for _, elementPP in ipairs(elementPPs) do
-        if showUI and elementPP:isVisible() then elementPP:draw() end
-        if elementPP:isConfigWindowVisible() then 
-            if not elementPP:drawConfigWindow() then
-                elementPP:save()
+    for _, widget in ipairs(widgets) do
+        if showUI and widget:isVisible() then widget:draw() end
+        if widget:isConfigWindowVisible() then 
+            if not widget:drawConfigWindow() then
+                widget:saveCfg()
+                widget:loadFont()
             end
         end
     end
