@@ -1,4 +1,3 @@
-require("MHRUIpp/helpers")
 require("MHRUIpp/ElementPPBase")
 
 -- This is a superclass of the ElementPPBase class
