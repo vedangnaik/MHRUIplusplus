@@ -7,7 +7,8 @@ require("MHRUIpp/SharpnessGaugePP")
 -- Put all elements in array and set them up.
 StockUIHandler = require("MHRUIpp/StockUIHandler"):new()
 StaminaBarPP = require("MHRUIpp/StaminaBarPP"):new()
-local widgets = { StaminaBarPP }
+HealthBarPP = require("MHRUIpp/HealthBarPP"):new()
+local widgets = { StaminaBarPP, HealthBarPP }
 
 -- Variable that indicates whether a UI is being displayed or not.
 local showUI = true
