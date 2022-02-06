@@ -1,6 +1,6 @@
 require("MHRUIpp/helpers")
 require("MHRUIpp/HealthBarPP")
-require("MHRUIpp/QuestTimerPP")
+
 require("MHRUIpp/DebuffIndicatorPP")
 require("MHRUIpp/SharpnessGaugePP")
 
@@ -8,7 +8,8 @@ require("MHRUIpp/SharpnessGaugePP")
 StockUIHandler = require("MHRUIpp/StockUIHandler"):new()
 StaminaBarPP = require("MHRUIpp/StaminaBarPP"):new()
 HealthBarPP = require("MHRUIpp/HealthBarPP"):new()
-local widgets = { StaminaBarPP, HealthBarPP }
+QuestTimerPP = require("MHRUIpp/QuestTimerPP"):new()
+local widgets = { StaminaBarPP, HealthBarPP, QuestTimerPP }
 
 -- Variable that indicates whether a UI is being displayed or not.
 local showUI = true
