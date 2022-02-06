@@ -7,10 +7,13 @@ HealthBarPP = require("MHRUIpp/HealthBarPP"):new()
 QuestTimerPP = require("MHRUIpp/QuestTimerPP"):new()
 DebuffIndicatorPP = require("MHRUIpp/DebuffIndicatorPP"):new()
 SharpnessGaugePP = require("MHRUIpp/SharpnessGaugePP"):new()
-local widgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP }
+-- Group widgets based on what interfaces they implement.
+local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP } -- Those with a Show button
+local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP, StockUIHandler } -- Those with profiles that need to be saved
+local nonViewableWidgets = { StockUIHandler } -- Those without a Show button
 
 -- Variable that indicates whether a UI is being displayed or not.
-local showUI = true
+local showUI = false
 
 -- Hook to change in Kamura Area.
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
@@ -64,8 +67,15 @@ re.on_draw_ui(function()
 end)
 
 re.on_frame(function()
-    for _, widget in ipairs(widgets) do
+    for _, widget in ipairs(viewableWidgets) do
         if showUI and widget:isVisible() then widget:draw() end
+    end
+
+    for _, widget in ipairs(nonViewableWidgets) do
+        if showUI then widget:draw() end
+    end
+
+    for _, widget in ipairs(persistantConfigurableWidgets) do
         if widget:isConfigWindowVisible() then 
             if not widget:drawConfigWindow() then
                 widget:saveCfg()
