@@ -1,41 +1,44 @@
 require("MHRUIpp/helpers")
-require("MHRUIpp/StaminaBarPP")
-require("MHRUIpp/HealthBarPP")
-require("MHRUIpp/QuestTimerPP")
-require("MHRUIpp/DebuffIndicatorPP")
-require("MHRUIpp/SharpnessGaugePP")
 
 -- Put all elements in array and set them up.
-local elementPPs = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP }
-for _, elementPP in ipairs(elementPPs) do elementPP:setup() end
+StockUIHandler = require("MHRUIpp/StockUIHandler"):new()
+StaminaBarPP = require("MHRUIpp/StaminaBarPP"):new()
+HealthBarPP = require("MHRUIpp/HealthBarPP"):new()
+QuestTimerPP = require("MHRUIpp/QuestTimerPP"):new()
+DebuffIndicatorPP = require("MHRUIpp/DebuffIndicatorPP"):new()
+SharpnessGaugePP = require("MHRUIpp/SharpnessGaugePP"):new()
+-- Group widgets based on what interfaces they implement.
+local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP } -- Those with a Show button
+local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP, StockUIHandler } -- Those with profiles that need to be saved
+local nonViewableWidgets = { StockUIHandler } -- Those without a Show button
 
--- Global variable that indicates whether MHRUIpp is being displayed or not.
-local showMHRUIpp = false
+-- Variable that indicates whether a UI is being displayed or not.
+local showUI = false
 
 -- Hook to change in Kamura Area.
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
 function(args)
 	if isInTrainingArea() then
-		showMHRUIpp = true
+		showUI = true
 	else
-		showMHRUIpp = false
+		showUI = false
 	end
 end, function(retval) end)
 
 -- Hook into quest start.
 sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
-	showMHRUIpp = true
+	showUI = false
 end, function(retval) end)
 
 -- Hook into quest end/return/clear/etc.
 sdk.hook(QuestManager_typedef:get_method("onQuestEnd"), function(args)
-	showMHRUIpp = false
+	showUI = false
 end, function(retval) end)
 sdk.hook(QuestManager_typedef:get_method("onQuestReturn"), function(args)
-	showMHRUIpp = false
+	showUI = false
 end, function(retval) end)
 sdk.hook(StageManager_typedef:get_method("onQuestClear"), function(args)
-	showMHRUIpp = false
+	showUI = false
 end, function(retval) end)
 
 -- Main config window handler.
@@ -56,17 +59,27 @@ re.on_draw_ui(function()
         if imgui.button("Configure Sharpness Gauge++") then
 			SharpnessGaugePP:toggleConfigWindowVisibility()
 		end
+        imgui.new_line()
+        if imgui.button("Configure Stock UI") then
+			StockUIHandler:toggleConfigWindowVisibility()
+		end
 	end
 end)
 
--- Draw each element on each frame.
 re.on_frame(function()
-    if showMHRUIpp then closeUI() end
-    for _, elementPP in ipairs(elementPPs) do
-        if showMHRUIpp and elementPP:isVisible() then elementPP:draw() end
-        if elementPP:isConfigWindowVisible() then 
-            if not elementPP:drawConfigWindow() then
-                elementPP:save()
+    for _, widget in ipairs(viewableWidgets) do
+        if showUI and widget:isVisible() then widget:draw() end
+    end
+
+    for _, widget in ipairs(nonViewableWidgets) do
+        if showUI then widget:draw() end
+    end
+
+    for _, widget in ipairs(persistantConfigurableWidgets) do
+        if widget:isConfigWindowVisible() then 
+            if not widget:drawConfigWindow() then
+                widget:saveCfg()
+                widget:loadFont()
             end
         end
     end
