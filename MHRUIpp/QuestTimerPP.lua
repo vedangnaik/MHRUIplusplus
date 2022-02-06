@@ -1,4 +1,4 @@
-require("MHRUIpp/ElementPPBase")
+require("MHRUIpp/interfaces")
 
 return {
     new = function(self)
