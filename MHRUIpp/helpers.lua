@@ -9,35 +9,6 @@ local function getStaticEnum(typename)
     return enum
 end
 
-function getPlayer()
-    if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
-    return PlayerManager:call("findMasterPlayer")
-end
-
-function isInTrainingArea()
-    if not VillageAreaManager then VillageAreaManager = sdk.get_managed_singleton("snow.VillageAreaManager") end
-    return VillageAreaManager:call("get__CurrentAreaNo") == 5
-end
-
-function mergeTables(tables)
-    local t = {}
-    for _, table in ipairs(tables) do
-        for k, v in pairs(table) do
-            if t[k] and type(t[k]) == 'table' and type(v) == 'table' then
-                t[k] = mergeTables({t[k], v})
-            else
-                t[k] = v
-            end
-        end
-    end
-    return t
-end
-
--- log_str = ""
--- re.on_draw_ui(function() 
---     imgui.text(tostring(log_str))
--- end)
-
 -- Typedefs
 StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
@@ -62,3 +33,32 @@ HWKeyboardManager = nil
 -- Temporary globals
 tempToggleKey = "Delete"
 tempToggleKeyNumber = 46
+
+-- Helpers functions
+function getPlayer()
+    if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
+    return PlayerManager:call("findMasterPlayer")
+end
+
+function isInTrainingArea()
+    return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo") == 5
+end
+
+function mergeTables(tables)
+    local t = {}
+    for _, table in ipairs(tables) do
+        for k, v in pairs(table) do
+            if t[k] and type(t[k]) == 'table' and type(v) == 'table' then
+                t[k] = mergeTables({t[k], v})
+            else
+                t[k] = v
+            end
+        end
+    end
+    return t
+end
+
+-- log_str = ""
+-- re.on_draw_ui(function() 
+--     imgui.text(tostring(log_str))
+-- end)

@@ -13,7 +13,7 @@ local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP,
 local nonViewableWidgets = { StockUIHandler } -- Those without a Show button
 
 -- Variable that indicates whether a UI is being displayed or not.
-local showUI = false
+local showUI = true
 
 -- Hook to change in Kamura Area.
 sdk.hook(VillageAreaManager_typedef:get_method("callAfterAreaActivation"),
