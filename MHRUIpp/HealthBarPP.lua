@@ -21,16 +21,16 @@ return {
         o:loadCfg()
         o:loadFont()
         -- Set up fields for HP. Init to default max.
-        o.maxHP = 100
-        o.currentHP = 100
-        o.recoverableHP = 100
+        self.maxHP = 100
+        self.currentHP = 100
+        self.recoverableHP = 100
         -- Then set up our hook into PlayerBase to get all unencrypted HP values.
         sdk.hook(PlayerBase_typedef:get_method("update"),
             function(args)
                 local playerData = getPlayer():call("get_PlayerData")
-                o.maxHP = playerData:get_field("_vitalMax")
-                o.recoverableHP = playerData:get_field("_r_Vital")
-                o.currentHP = playerData:call("get__vital")
+                self.maxHP = playerData:get_field("_vitalMax")
+                self.recoverableHP = playerData:get_field("_r_Vital")
+                self.currentHP = playerData:call("get__vital")
             end,
             function(retval) end
         )
