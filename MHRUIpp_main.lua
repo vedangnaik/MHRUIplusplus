@@ -27,7 +27,7 @@ end, function(retval) end)
 
 -- Hook into quest start.
 sdk.hook(StageManager_typedef:get_method("onQuestStart"), function(args)
-	showUI = false
+	showUI = true
 end, function(retval) end)
 
 -- Hook into quest end/return/clear/etc.
