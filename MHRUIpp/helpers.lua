@@ -1,4 +1,4 @@
--- Get static enums
+-- Helper functions
 local function getStaticEnum(typename)
     local enum = {}
     for i, field in ipairs(sdk.find_type_definition(typename):get_fields()) do
@@ -9,29 +9,6 @@ local function getStaticEnum(typename)
     return enum
 end
 
--- Typedefs
-StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
-VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
-StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
-QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
-PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
--- Font file path and aspect ratio (width to height). Change on per font basis
-fontFilepath = "Cascadia.ttf"
-fontAspectRatio = 0.5
-Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
--- Global offset for text inside widgets. Might be made customizable later.
-textHorizOffset = 5
-textVertOffset = 3
--- Stamina isn't reported in seconds for some reason :|
-staminaUnitsToSeconds = 360 / 21600
--- Singletons
-PlayerManager = nil
-VillageAreaManager = nil
-QuestManager = nil
-GUIManager = nil
-GameKeyboard = nil
-
--- Helper functions
 function getPlayer()
     if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
     return PlayerManager:call("findMasterPlayer")
@@ -60,3 +37,28 @@ log_str = ""
 re.on_draw_ui(function() 
     imgui.text(tostring(log_str))
 end)
+
+-- Typedefs
+StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
+VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
+StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
+QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
+PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
+-- Font file path and aspect ratio (width to height). Change on per font basis
+fontFilepath = "Cascadia.ttf"
+fontAspectRatio = 0.5
+Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
+-- Global offset for text inside widgets. Might be made customizable later.
+textHorizOffset = 5
+textVertOffset = 3
+-- Stamina isn't reported in seconds for some reason :|
+staminaUnitsToSeconds = 360 / 21600
+-- Singletons
+PlayerManager = nil
+VillageAreaManager = nil
+QuestManager = nil
+GUIManager = nil
+HWKeyboardManager = nil
+-- Temporary globals
+tempToggleKey = "Delete"
+tempToggleKeyNumber = 46

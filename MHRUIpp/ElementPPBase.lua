@@ -64,11 +64,13 @@ IPersistantWidget = mergeTables({IWidget, {
 
 IViewableWidget = mergeTables({IWidget, {
     defaults = {
-        visible = true
+        visible = true,
+        holdDownKey = tempToggleKeyNumber,
     },
 
     isVisible = function(self)
-        return self.cfg.visible
+        if not HWKeyboardManager then HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard"):get_field("hardKeyboard") end
+        return self.cfg.visible or HWKeyboardManager:call("getDown", math.floor(self.cfg.holdDownKey))
     end,
 }})
 

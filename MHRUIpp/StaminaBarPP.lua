@@ -48,6 +48,8 @@ return {
         local changed = false;
         changed, self.cfg.visible = imgui.checkbox("Show?", self.cfg.visible)
         self.cfgChanged = self.cfgChanged or changed
+        imgui.text("Toggle Key: " .. tempToggleKey)
+        imgui.text("Configurable toggle keys coming soon!")
         imgui.new_line()
     
         changed, self.cfg.fontSize = imgui.drag_int("Font Size", self.cfg.fontSize, 1, 2, 50)
