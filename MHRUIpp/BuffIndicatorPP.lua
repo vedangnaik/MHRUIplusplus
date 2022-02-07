@@ -76,21 +76,44 @@ return {
     end,
 
     commonBuffMsgs = {
-        [CommonBuffs.AttackUp] = "Attack Up!",
-        [CommonBuffs.DefenceUp] = "Defence Up!",
-        [CommonBuffs.StaminaUp] = "Stamina Up!",
-        [CommonBuffs.DebuffPrevention] = "Debuffs Negated!",
-        [CommonBuffs.CriticalUp] = "Critical Up!",
-        [CommonBuffs.SuperArmor] = "Super Armor!",
-        [CommonBuffs.ElementAttackUp] = "Element Attack Up!",
-        [CommonBuffs.Stamina] = "Stamina Use Down!", -- Might need to be swapped with Stamina Up
-        [CommonBuffs.HpRegene] = "Health Regen!",
-        -- [CommonBuffs.HpFish] = "", -- No idea what this is
-        [CommonBuffs.HyperArmor] = "Hyper Armor!",
-        [CommonBuffs.DamageDown] = "Divine Protection!", -- This is what this sounds like
-        [CommonBuffs.EarS] = "Earplugs (S)!",
-        -- [CommonBuffs.EscapeUp] = "", -- No idea what this is
-        [CommonBuffs.HpHealRegene] = "HP Recovery Up!",
-        -- [CommonBuffs.AttackUpEffectOnly] = "", -- No idea what this is
+           [CommonBuffs.AttackUp]           = "Attack Up!",
+           [CommonBuffs.DefenceUp]          = "Defence Up!",
+           [CommonBuffs.StaminaUp]          = "Stamina Recovery Up!",
+           [CommonBuffs.DebuffPrevention]   = "Debuffs Negated!",
+           [CommonBuffs.CriticalUp]         = "Critical Up!",
+           [CommonBuffs.SuperArmor]         = "Super Armor!",
+           [CommonBuffs.ElementAttackUp]    = "Element Attack Up!",
+           [CommonBuffs.Stamina]            = "Stamina Use Down!",  -- Might need to be swapped with Stamina Up
+           [CommonBuffs.HpRegene]           = "Health Regen!",
+        -- [CommonBuffs.HpFish]             = "",                   -- No idea what this is
+           [CommonBuffs.HyperArmor]         = "Hyper Armor!",
+           [CommonBuffs.DamageDown]         = "Divine Protection!", -- This is what this sounds like
+           [CommonBuffs.EarS]               = "Earplugs (S)!",
+        -- [CommonBuffs.EscapeUp]           = "",                   -- No idea what this is
+           [CommonBuffs.HpHealRegene]       = "HP Recovery Up!",
+        -- [CommonBuffs.AttackUpEffectOnly] = "",                   -- No idea what this is
+    },
+
+    hornBuffMsgs = {
+           [HornBuffs.HornAttackUp]        = "HH: Attack Up!",
+           [HornBuffs.HornDefenceUp]       = "HH: Defence Up!",
+           [HornBuffs.HornMyUp]            = "HH: Self Improvement!",    -- This this is what this is
+           [HornBuffs.HornCriticalUp]      = "HH: Critical Up!",
+           [HornBuffs.HornElementAttackUp] = "HH: Element Attack Up!",
+           [HornBuffs.HornSuperArmor]      = "HH: Super Armor!",
+           [HornBuffs.HornEarS]            = "HH: Earplugs (S)!",
+           [HornBuffs.HornEarL]            = "HH: Earplugs (L)!",
+           [HornBuffs.HornQuake]           = "HH: Tremors Negated!",
+           [HornBuffs.HornWind]            = "HH: Wind Negated!",
+           [HornBuffs.HornStun]            = "HH: Stun Negated!",
+           [HornBuffs.HornElementDamage]   = "HH: Element Attack Up!",
+        -- [HornBuffs.HornKago]            = "",                         -- No idea what this is
+           [HornBuffs.HornHpRegene]        = "HH: HP Regen!",
+           [HornBuffs.HornStamina]         = "HH: Stamina Use Down!",
+           [HornBuffs.HornStaminaRegene]   = "HH: Stamina Recovery Up!",
+        -- [HornBuffs.HornSlash]           = "",                         -- No idea what these three are
+        -- [HornBuffs.HornGroundDamage]    = "",
+        -- [HornBuffs.HornRevolt]          = "",
+           [HornBuffs.HornHyperArmor]      = "HH: Hyper Armor!",
     }
 }
