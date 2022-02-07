@@ -6,13 +6,13 @@ return {
         setmetatable(self, {__index = IPersistantConfigurableViewableWidget})
         self.__index = self
         setmetatable(o, self)
-        o.cfgFilepath = o.cfgFilepath .. "DebuffIndicator++.json"
+        o.cfgFilepath = o.cfgFilepath .. "BuffIndicator++.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 115,
+            x                  = 240,
             y                  = 5,
             borderWidth        = 2,
             borderColor        = "0xAA000000",
-            bgColor            = "0xAA621EE8",
+            bgColor            = "0xAA00FF48",
             textColor          = "0xFFFFFFFF",
             visibleNotDebuffed = false,
         }})
@@ -22,9 +22,15 @@ return {
     end,
 
     draw = function(self)
-        local debuff = getPlayer():call("get_PlayerData"):get_field("_condition"):call("get_DebuffCondition")
-        if debuff ~= 0 or self.cfg.visibleNotDebuffed then
-            local text = self.debuffMsgs[debuff] or "Unknown :("
+        local playerCondition = getPlayer():call("get_PlayerData"):get_field("_condition")
+        local common = playerCondition:call("get_CommonCondition")
+        local horn = playerCondition:call("get_HornMusicUpCondition")
+
+        local text = "No Buff :("
+        if common ~= 0 then text = self.commonBuffMsgs[common] or "Unknown :|"
+        elseif horn ~= 0 then text = self.hornBuffMsgs[horn] or "Unknown :|" end
+
+        if common ~= 0 or horn ~= 0 or self.cfg.visibleNotDebuffed then
             local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
             local h = self.cfg.fontSize + (textVertOffset << 1)
             local borderOffset = self.cfg.borderWidth << 1
@@ -38,7 +44,7 @@ return {
     end,
 
     drawConfigWindow = function(self)
-        self.cfgWinVisible = imgui.begin_window("Configure Debuff Indicator++", true, 0x10120)
+        self.cfgWinVisible = imgui.begin_window("Configure Buff Indicator++", true, 0x10120)
         if not self.cfgWinVisible then return false end
         
         local changed = false;
@@ -67,35 +73,5 @@ return {
         imgui.end_window()
         
         return true
-    end,
-
-    debuffMsgs = {
-        [0]                         = "No Debuff!",
-        [Debuffs.FireL]             = "FireBlight!",
-        [Debuffs.WaterL]            = "Waterblight!",
-        [Debuffs.ThunderL]          = "Thunderblight!",
-        [Debuffs.IceL]              = "Iceblight!",
-        [Debuffs.DragonL]           = "Dragonblight!",
-        [Debuffs.AllResDownS]       = "Resistance Down!",
-        [Debuffs.AllResDownL]       = "Resistance Down!",
-        [Debuffs.Bubble]            = "Bubble!",
-        [Debuffs.RedBubble]         = "Bubble!",
-        [Debuffs.GreenBubble]       = "Bubble!",
-        [Debuffs.MagmaSlip]         = "Magma!",
-        [Debuffs.Poison]            = "Poisoned!",
-        [Debuffs.NoxiousPoison]     = "Poisoned!",
-        [Debuffs.DeadlyPoison]      = "Poisoned!",
-        [Debuffs.Sleep]             = "Sleepy!",
-        [Debuffs.Paralyze]          = "Paralyzed!",
-        [Debuffs.Stun]              = "Stunned!",
-        [Debuffs.Stink]             = "Stinky!",
-        [Debuffs.BubbleDaruma]      = "Bubble!",
-        [Debuffs.RedBubbleDaruma]   = "Bubble!",
-        [Debuffs.GreenBubbleDaruma] = "Bubble!",
-        [Debuffs.Blooding]          = "Bleeding!",
-        [Debuffs.Bleeding]          = "Bleeding!",
-        [Debuffs.Confusion]         = "Confused!",
-        [Debuffs.DefenceDownS]      = "Defence Down!",
-        [Debuffs.DefenceDownL]      = "Defence Down!",
-    }
+    end
 }

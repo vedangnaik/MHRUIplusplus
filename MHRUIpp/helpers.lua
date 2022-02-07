@@ -19,6 +19,8 @@ PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
 fontFilepath = "Cascadia.ttf"
 fontAspectRatio = 0.5
 Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
+CommonBuffs = getStaticEnum("snow.player.PlayerCondition.Common")
+HornBuffs = getStaticEnum("snow.player.PlayerCondition.HornMusicUp")
 -- Global offset for text inside widgets. Might be made customizable later.
 textHorizOffset = 5
 textVertOffset = 3
@@ -58,7 +60,7 @@ function mergeTables(tables)
     return t
 end
 
--- log_str = ""
--- re.on_draw_ui(function() 
---     imgui.text(tostring(log_str))
--- end)
+log_str = ""
+re.on_draw_ui(function() 
+    imgui.text(tostring(log_str))
+end)
