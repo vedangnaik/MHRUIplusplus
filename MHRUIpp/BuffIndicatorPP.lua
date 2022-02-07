@@ -73,5 +73,24 @@ return {
         imgui.end_window()
         
         return true
-    end
+    end,
+
+    commonBuffMsgs = {
+        [CommonBuffs.AttackUp] = "Attack Up!",
+        [CommonBuffs.DefenceUp] = "Defence Up!",
+        [CommonBuffs.StaminaUp] = "Stamina Up!",
+        [CommonBuffs.DebuffPrevention] = "Debuffs Negated!",
+        [CommonBuffs.CriticalUp] = "Critical Up!",
+        [CommonBuffs.SuperArmor] = "Super Armor!",
+        [CommonBuffs.ElementAttackUp] = "Element Attack Up!",
+        [CommonBuffs.Stamina] = "Stamina Use Down!", -- Might need to be swapped with Stamina Up
+        [CommonBuffs.HpRegene] = "Health Regen!",
+        -- [CommonBuffs.HpFish] = "", -- No idea what this is
+        [CommonBuffs.HyperArmor] = "Hyper Armor!",
+        [CommonBuffs.DamageDown] = "Divine Protection!", -- This is what this sounds like
+        [CommonBuffs.EarS] = "Earplugs (S)!",
+        -- [CommonBuffs.EscapeUp] = "", -- No idea what this is
+        [CommonBuffs.HpHealRegene] = "HP Recovery Up!",
+        -- [CommonBuffs.AttackUpEffectOnly] = "", -- No idea what this is
+    }
 }
