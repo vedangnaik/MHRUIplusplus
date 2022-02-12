@@ -9,38 +9,39 @@ local function getStaticEnum(typename)
     return enum
 end
 
+-- Singletons
+PlayerManager     = sdk.get_managed_singleton("snow.player.PlayerManager")
+QuestManager      = sdk.get_managed_singleton("snow.QuestManager")
+GUIManager        = sdk.get_managed_singleton("snow.gui.GuiManager")
+HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard")
+SceneManager      = sdk.get_native_singleton("via.SceneManager")
+MessageManager    = sdk.get_managed_singleton("snow.gui.MessageManager")
+EnemyManager      = sdk.get_managed_singleton("snow.enemy.EnemyManager")
 -- Typedefs
-StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
+StageManager_typedef       = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
-StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
-QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
-PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
-SceneManager_typedef = sdk.find_type_definition("via.SceneManager")
+StageManager_typedef       = sdk.find_type_definition("snow.stage.StageManager")
+QuestManager_typedef       = sdk.find_type_definition("snow.QuestManager")
+PlayerBase_typedef         = sdk.find_type_definition("snow.player.PlayerBase")
+SceneManager_typedef       = sdk.find_type_definition("via.SceneManager")
 EnemyCharacterBase_typedef = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
 -- Font file path and aspect ratio (width to height). Change on per font basis
-fontFilepath = "Cascadia.ttf"
+fontFilepath    = "Cascadia.ttf"
 fontAspectRatio = 0.5
-Debuffs = getStaticEnum("snow.player.PlayerCondition.Debuff")
+-- Static enums required for strings in some widgets.
+Debuffs     = getStaticEnum("snow.player.PlayerCondition.Debuff")
 CommonBuffs = getStaticEnum("snow.player.PlayerCondition.Common")
-HornBuffs = getStaticEnum("snow.player.PlayerCondition.HornMusicUp")
+HornBuffs   = getStaticEnum("snow.player.PlayerCondition.HornMusicUp")
 -- Global offset for text inside widgets. Might be made customizable later.
 textHorizOffset = 5
-textVertOffset = 3
+textVertOffset  = 3
 -- Stamina isn't reported in seconds for some reason :|
 staminaUnitsToSeconds = 360 / 21600
--- Singletons
-PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager")
-QuestManager = sdk.get_managed_singleton("snow.QuestManager")
-GUIManager = sdk.get_managed_singleton("snow.gui.GuiManager")
-HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard")
-SceneManager = sdk.get_native_singleton("via.SceneManager")
-MessageManager = sdk.get_managed_singleton("snow.gui.MessageManager")
-EnemyManager = sdk.get_managed_singleton("snow.enemy.EnemyManager")
 -- Temporary globals
-tempToggleKey = "Delete"
+tempToggleKey       = "Delete"
 tempToggleKeyNumber = 46
--- Screen width and height
-screenWidth = sdk.call_native_func(sceneman, SceneManager_typedef, "get_MainView"):call("get_Size"):get_field("w")
+-- Screen width
+screenWidth = sdk.call_native_func(SceneManager, SceneManager_typedef, "get_MainView"):call("get_Size"):get_field("w")
 
 -- Helpers functions
 function getPlayer()
