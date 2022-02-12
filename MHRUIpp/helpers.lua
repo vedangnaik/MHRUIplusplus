@@ -16,6 +16,7 @@ StageManager_typedef = sdk.find_type_definition("snow.stage.StageManager")
 QuestManager_typedef = sdk.find_type_definition("snow.QuestManager")
 PlayerBase_typedef = sdk.find_type_definition("snow.player.PlayerBase")
 SceneManager_typedef = sdk.find_type_definition("via.SceneManager")
+EnemyCharacterBase_typedef = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
 -- Font file path and aspect ratio (width to height). Change on per font basis
 fontFilepath = "Cascadia.ttf"
 fontAspectRatio = 0.5
@@ -33,6 +34,8 @@ QuestManager = sdk.get_managed_singleton("snow.QuestManager")
 GUIManager = sdk.get_managed_singleton("snow.gui.GuiManager")
 HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard")
 SceneManager = sdk.get_native_singleton("via.SceneManager")
+MessageManager = sdk.get_managed_singleton("snow.gui.MessageManager")
+EnemyManager = sdk.get_managed_singleton("snow.enemy.EnemyManager")
 -- Temporary globals
 tempToggleKey = "Delete"
 tempToggleKeyNumber = 46
