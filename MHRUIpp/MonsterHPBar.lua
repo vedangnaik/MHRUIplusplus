@@ -19,7 +19,7 @@ return {
         o:loadCfg()
         o:loadFont()
         -- Set up table for loaded enemies.
-        self.enemies = {} 
+        self.enemies = {}
         -- Then hook into enemy character bases to get HP values.
         sdk.hook(EnemyCharacterBase_typedef:get_method("update"),
             function(args)
@@ -53,7 +53,7 @@ return {
             local enemyInfo = self.enemies[enemy]
             if not enemyInfo then break end
             local enemyPosition = enemy:call("get_GameObject"):call("get_Transform"):call("get_Position")
-            
+
             local distanceBetween = (playerPosition - enemyPosition):length()
             if distanceBetween < closestDistance then
                 closestEnemy = enemy
@@ -80,12 +80,12 @@ return {
     drawConfigWindow = function(self)
         self.cfgWinVisible = imgui.begin_window("Configure Monster HP Bar", true, 0x10120)
         if not self.cfgWinVisible then return false end
-        
+
         local changed = false;
         changed, self.cfg.visible = imgui.checkbox("Show?", self.cfg.visible)
         self.cfgChanged = self.cfgChanged or changed
         imgui.new_line()
-    
+
         changed, self.cfg.fontSize = imgui.drag_int("Font Size", self.cfg.fontSize, 1, 2, 50)
         self.cfgChanged = self.cfgChanged or changed
         changed, self.cfg.x = imgui.drag_int("X position", self.cfg.x, 2, 0, 10000)
@@ -98,14 +98,14 @@ return {
         self.cfgChanged = self.cfgChanged or changed
         imgui.text("Color pickers coming soon!")
         imgui.new_line()
-        
+
         if imgui.button("Reset Defaults") then
             self:restoreDefaults()
             self.cfgChanged = true
         end
-    
+
         imgui.end_window()
-        
+
         return true
     end,
 

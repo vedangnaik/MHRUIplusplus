@@ -84,7 +84,7 @@ re.on_frame(function()
     end
 
     for _, widget in ipairs(persistantConfigurableWidgets) do
-        if widget:isConfigWindowVisible() then 
+        if widget:isConfigWindowVisible() then
             if not widget:drawConfigWindow() then
                 widget:saveCfg()
                 widget:loadFont()

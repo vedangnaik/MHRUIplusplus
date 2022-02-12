@@ -38,19 +38,19 @@ return {
     end,
 
     draw = function(self)
-        local h = self.cfg.fontSize + (textVertOffset << 1) 
+        local h = self.cfg.fontSize + (textVertOffset << 1)
         local borderOffset = self.cfg.borderWidth << 1
         -- Scaled width of entire gauge.
         local gaugeWidth = self.cfg.w * (self.maxHP / 100)
         local recoverableHPWidth = gaugeWidth * (self.recoverableHP / self.maxHP)
-        local currentHPWidth = gaugeWidth * (self.currentHP / self.maxHP) 
-    
+        local currentHPWidth = gaugeWidth * (self.currentHP / self.maxHP)
+
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, gaugeWidth + borderOffset, h + borderOffset, self.cfg.borderColor)
         draw.filled_rect(self.cfg.x, self.cfg.y, recoverableHPWidth, h, self.cfg.recoverableHPColor)
         draw.filled_rect(self.cfg.x, self.cfg.y, currentHPWidth, h, self.cfg.currentHPColor)
         draw.text(
-            string.format("Health: %d/%d", self.currentHP, self.maxHP), 
+            string.format("Health: %d/%d", self.currentHP, self.maxHP),
             self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor
         )
         imgui.pop_font()
@@ -59,14 +59,14 @@ return {
     drawConfigWindow = function(self)
         self.cfgWinVisible = imgui.begin_window("Configure Health Bar++", true, 0x10120)
         if not self.cfgWinVisible then return false end
-        
+
         local changed = false;
         changed, self.cfg.visible = imgui.checkbox("Show?", self.cfg.visible)
         self.cfgChanged = self.cfgChanged or changed
         imgui.text("Toggle Key: " .. tempToggleKey)
         imgui.text("Configurable toggle keys coming soon!")
         imgui.new_line()
-        
+
         changed, self.cfg.fontSize = imgui.drag_int("Font Size", self.cfg.fontSize, 1, 2, 50)
         self.cfgChanged = self.cfgChanged or changed
         changed, self.cfg.x = imgui.drag_int("X position", self.cfg.x, 2, 0, 10000)
@@ -79,14 +79,14 @@ return {
         self.cfgChanged = self.cfgChanged or changed
         imgui.text("Color pickers coming soon!")
         imgui.new_line()
-        
+
         if imgui.button("Reset Defaults") then
             self:restoreDefaults()
             self.cfgChanged = true
         end
-    
+
         imgui.end_window()
-    
+
         return true
     end
 }

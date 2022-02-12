@@ -67,6 +67,6 @@ function mergeTables(tables)
 end
 
 log_str = ""
-re.on_draw_ui(function() 
+re.on_draw_ui(function()
     imgui.text(tostring(log_str))
 end)

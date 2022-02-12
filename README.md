@@ -22,7 +22,7 @@ Feel free to make suggestions for more widgets!
 
 ### Installation
 
-1. Install REFramework from [NexusMods](https://www.nexusmods.com/monsterhunterrise/mods/26) or [GitHub Releases](https://github.com/praydog/REFramework/releases). 
+1. Install REFramework from [NexusMods](https://www.nexusmods.com/monsterhunterrise/mods/26) or [GitHub Releases](https://github.com/praydog/REFramework/releases).
 2. Download MHRUIpp from either:
     - NexusMods: https://www.nexusmods.com/monsterhunterrise/mods/197
     - GitHub Releases: https://github.com/vedangnaik/MHRUIplusplus/releases
