@@ -91,7 +91,7 @@ return {
         [CommonBuffs.EarS]               = "Earplugs (S)!",
         [CommonBuffs.EscapeUp]           = "Escape Up!",           -- No idea what this is
         [CommonBuffs.HpHealRegene]       = "HP Recovery Up!",
-     -- [CommonBuffs.AttackUpEffectOnly] = "",                     -- No idea what this is
+        [CommonBuffs.AttackUpEffectOnly] = "Attack Up Effect!",    -- No idea what this is
     },
 
     hornBuffMsgs = {
