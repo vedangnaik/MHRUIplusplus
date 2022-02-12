@@ -6,10 +6,11 @@ StaminaBarPP = require("MHRUIpp/StaminaBarPP"):new()
 HealthBarPP = require("MHRUIpp/HealthBarPP"):new()
 QuestTimerPP = require("MHRUIpp/QuestTimerPP"):new()
 DebuffIndicatorPP = require("MHRUIpp/DebuffIndicatorPP"):new()
+BuffIndicatorPP = require("MHRUIpp/BuffIndicatorPP"):new()
 SharpnessGaugePP = require("MHRUIpp/SharpnessGaugePP"):new()
 -- Group widgets based on what interfaces they implement.
-local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP } -- Those with a Show button
-local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, SharpnessGaugePP, StockUIHandler } -- Those with profiles that need to be saved
+local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP } -- Those with a Show button
+local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP, StockUIHandler } -- Those with profiles that need to be saved
 local nonViewableWidgets = { StockUIHandler } -- Those without a Show button
 
 -- Variable that indicates whether a UI is being displayed or not.
@@ -55,6 +56,9 @@ re.on_draw_ui(function()
 		end
         if imgui.button("Configure Debuff Indicator++") then
 			DebuffIndicatorPP:toggleConfigWindowVisibility()
+		end
+        if imgui.button("Configure Buff Indicator++") then
+			BuffIndicatorPP:toggleConfigWindowVisibility()
 		end
         if imgui.button("Configure Sharpness Gauge++") then
 			SharpnessGaugePP:toggleConfigWindowVisibility()
