@@ -61,19 +61,19 @@ return {
             end
         end
 
-        local text = "No enemy"
-        if closestEnemy and self.enemies[closestEnemy] then
-            text = string.format("%s: %d/%d", self.enemies[closestEnemy].name, self.enemies[closestEnemy].currentHP, self.enemies[closestEnemy].maxHP)
-        end
-
         local h = self.cfg.fontSize + (textVertOffset << 1)
         local borderOffset = self.cfg.borderWidth << 1
-        local currentHPWidth = self.cfg.w * (closestEnemyInfo.currentHP / closestEnemyInfo.maxHP)
-
+        
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, self.cfg.w + borderOffset, h + borderOffset, self.cfg.borderColor)
-        draw.filled_rect(self.cfg.x, self.cfg.y, currentHPWidth, h, self.cfg.bgColor)
-        draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
+        if closestEnemy and self.enemies[closestEnemy] then
+            local text = string.format("%s: %d/%d", self.enemies[closestEnemy].name, self.enemies[closestEnemy].currentHP, self.enemies[closestEnemy].maxHP)
+            local currentHPWidth = self.cfg.w * (self.enemies[closestEnemy].currentHP / self.enemies[closestEnemy].maxHP)
+            draw.filled_rect(self.cfg.x, self.cfg.y, currentHPWidth, h, self.cfg.bgColor)
+            draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
+        else
+            draw.text("No enemy", self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
+        end
         imgui.pop_font()
     end,
 
