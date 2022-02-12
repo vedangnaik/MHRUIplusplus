@@ -24,7 +24,6 @@ return {
         local timeLimit = 0
         local elapsedTimeSeconds = 0
     
-        if not QuestManager then QuestManager = sdk.get_managed_singleton("snow.QuestManager") end
         local activeQuestData = QuestManager:call("getActiveQuestData")
         if activeQuestData then
             timeLimit = activeQuestData:call("getTimeLimit")

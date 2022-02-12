@@ -22,7 +22,6 @@ return {
     end,
 
     draw = function(self)
-        if not GUIManager then GUIManager = sdk.get_managed_singleton("snow.gui.GuiManager") end
         if self.cfg.showHUD then GUIManager:call("openHud") else GUIManager:call("closeHud") end
         if self.cfg.showBuddyHUD then GUIManager:call("openPartHud") else GUIManager:call("closePartHud") end
         if self.cfg.showSharpnessHUD then GUIManager:call("openHudSharpness") else GUIManager:call("closeHudSharpness") end
