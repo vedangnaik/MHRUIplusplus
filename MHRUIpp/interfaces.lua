@@ -69,6 +69,7 @@ IViewableWidget = mergeTables({IWidget, {
     },
 
     isVisible = function(self)
+        if not HWKeyboardManager then HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard") end
         return self.cfg.visible or HWKeyboardManager:call("getDown", math.floor(self.cfg.holdDownKey))
     end,
 }})

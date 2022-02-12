@@ -25,6 +25,7 @@ return {
             function(args)
                 local enemy = sdk.to_managed_object(args[2])
                 -- Get name of monster if it's not recorded.
+                if not MessageManager then MessageManager = sdk.get_managed_singleton("snow.gui.MessageManager") end
                 if not self.enemies[enemy] then
                     self.enemies[enemy] = {
                         name = MessageManager:call("getEnemyNameMessage", enemy:get_field("<EnemyType>k__BackingField"))
@@ -42,6 +43,7 @@ return {
     end,
 
     draw = function(self)
+        if not EnemyManager then EnemyManager = sdk.get_managed_singleton("snow.enemy.EnemyManager") end
         -- Find monster closest to player.
         local playerPosition = getPlayer():call("get_GameObject"):call("get_Transform"):call("get_Position")
         -- Iterate through up to four enemies.
@@ -63,7 +65,7 @@ return {
 
         local h = self.cfg.fontSize + (textVertOffset << 1)
         local borderOffset = self.cfg.borderWidth << 1
-        
+
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, self.cfg.w + borderOffset, h + borderOffset, self.cfg.borderColor)
         if closestEnemy and self.enemies[closestEnemy] then

@@ -10,13 +10,13 @@ local function getStaticEnum(typename)
 end
 
 -- Singletons
-PlayerManager     = sdk.get_managed_singleton("snow.player.PlayerManager")
-QuestManager      = sdk.get_managed_singleton("snow.QuestManager")
-GUIManager        = sdk.get_managed_singleton("snow.gui.GuiManager")
-HWKeyboardManager = sdk.get_managed_singleton("snow.GameKeyboard")
+PlayerManager     = nil
+QuestManager      = nil
+GUIManager        = nil
+HWKeyboardManager = nil
 SceneManager      = sdk.get_native_singleton("via.SceneManager")
-MessageManager    = sdk.get_managed_singleton("snow.gui.MessageManager")
-EnemyManager      = sdk.get_managed_singleton("snow.enemy.EnemyManager")
+MessageManager    = nil
+EnemyManager      = nil
 -- Typedefs
 StageManager_typedef       = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
@@ -45,6 +45,7 @@ screenWidth = sdk.call_native_func(SceneManager, SceneManager_typedef, "get_Main
 
 -- Helpers functions
 function getPlayer()
+    if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
     return PlayerManager:call("findMasterPlayer")
 end
 
