@@ -19,7 +19,7 @@ And this list is only growing! Planned widgets include:
 
 - [x] A revamped sharpness indicator
 - [x] A less-intrusive monster tracker
-- [ ] Integrated monster stamina/status gauges a la [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) and [Status Bars](https://www.nexusmods.com/monsterhunterrise/mods/113)
+- [ ] Integrated monster stamina/status gauges a la [Status Bars](https://www.nexusmods.com/monsterhunterrise/mods/113)
 - [ ] [If possible] A more detailed minimap
 - [ ] [If possible] Weapon-specific UI e.g. custom Charge Blade phials, Longsword gauge, etc.
 
