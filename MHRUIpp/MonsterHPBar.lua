@@ -6,51 +6,83 @@ return {
         setmetatable(self, {__index = IPersistantConfigurableViewableWidget})
         self.__index = self
         setmetatable(o, self)
-        o.cfgFilepath = o.cfgFilepath .. "BuffIndicator++.json"
+        o.cfgFilepath = o.cfgFilepath .. "MonsterHPBar.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 240,
-            y                  = 5,
-            borderWidth        = 2,
-            borderColor        = "0xAA000000",
-            bgColor            = "0xAA00FF48",
-            textColor          = "0xFFFFFFFF",
-            visibleNotDebuffed = false,
+            x           = screenWidth - 320,
+            y           = 160,
+            w           = 280,
+            borderWidth = 2,
+            borderColor = "0xAA000000",
+            bgColor     = "0xAA534BD5",
+            textColor   = "0xFFFFFFFF",
         }})
         o:loadCfg()
         o:loadFont()
+        -- Set up table for loaded enemies.
+        self.enemies = {}
+        -- Then hook into enemy character bases to get HP values.
+        sdk.hook(EnemyCharacterBase_typedef:get_method("update"),
+            function(args)
+                local enemy = sdk.to_managed_object(args[2])
+                -- Get name of monster if it's not recorded.
+                if not self.enemies[enemy] then
+                    self.enemies[enemy] = {
+                        name = MessageManager:call("getEnemyNameMessage", enemy:get_field("<EnemyType>k__BackingField"))
+                    }
+                end
+                -- Get vitals of monster.
+                local vitals = enemy:get_field("<PhysicalParam>k__BackingField"):call("getVital", 0, 0)
+                self.enemies[enemy].currentHP = vitals:call("get_Current")
+                self.enemies[enemy].maxHP = vitals:call("get_Max")
+            end,
+            function(retval) end
+        )
+
         return o
     end,
 
     draw = function(self)
-        local playerCondition = getPlayer():call("get_PlayerData"):get_field("_condition")
-        local common = playerCondition:call("get_CommonCondition")
-        local horn = playerCondition:call("get_HornMusicUpCondition")
+        -- Find monster closest to player.
+        local playerPosition = getPlayer():call("get_GameObject"):call("get_Transform"):call("get_Position")
+        -- Iterate through up to four enemies.
+        local closestEnemy = nil
+        local closestDistance = 1e309
+        for i = 0, 4 do
+            local enemy = EnemyManager:call("getBossEnemy", i)
+            if not enemy then break end
+            local enemyInfo = self.enemies[enemy]
+            if not enemyInfo then break end
+            local enemyPosition = enemy:call("get_GameObject"):call("get_Transform"):call("get_Position")
 
-        local text = "No Buff :("
-        if common ~= 0 then text = self.commonBuffMsgs[common] or "Unknown"
-        elseif horn ~= 0 then text = self.hornBuffMsgs[horn] or "Unknown :|" end
-
-        if common ~= 0 or horn ~= 0 or self.cfg.visibleNotDebuffed then
-            local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
-            local h = self.cfg.fontSize + (textVertOffset << 1)
-            local borderOffset = self.cfg.borderWidth << 1
-
-            imgui.push_font(self.font)
-            draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.cfg.borderColor)
-            draw.filled_rect(self.cfg.x, self.cfg.y, w, h, self.cfg.bgColor)
-            draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
-            imgui.pop_font()
+            local distanceBetween = (playerPosition - enemyPosition):length()
+            if distanceBetween < closestDistance then
+                closestEnemy = enemy
+                closestDistance = distanceBetween
+            end
         end
+
+        local text = "No enemy"
+        if closestEnemy and self.enemies[closestEnemy] then
+            text = string.format("%s: %d/%d", self.enemies[closestEnemy].name, self.enemies[closestEnemy].currentHP, self.enemies[closestEnemy].maxHP)
+        end
+
+        local h = self.cfg.fontSize + (textVertOffset << 1)
+        local borderOffset = self.cfg.borderWidth << 1
+        local currentHPWidth = self.cfg.w * (closestEnemyInfo.currentHP / closestEnemyInfo.maxHP)
+
+        imgui.push_font(self.font)
+        draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, self.cfg.w + borderOffset, h + borderOffset, self.cfg.borderColor)
+        draw.filled_rect(self.cfg.x, self.cfg.y, currentHPWidth, h, self.cfg.bgColor)
+        draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
+        imgui.pop_font()
     end,
 
     drawConfigWindow = function(self)
-        self.cfgWinVisible = imgui.begin_window("Configure Buff Indicator++", true, 0x10120)
+        self.cfgWinVisible = imgui.begin_window("Configure Monster HP Bar", true, 0x10120)
         if not self.cfgWinVisible then return false end
 
         local changed = false;
         changed, self.cfg.visible = imgui.checkbox("Show?", self.cfg.visible)
-        self.cfgChanged = self.cfgChanged or changed
-        changed, self.cfg.visibleNotDebuffed = imgui.checkbox("Show when not debuffed?", self.cfg.visibleNotDebuffed)
         self.cfgChanged = self.cfgChanged or changed
         imgui.new_line()
 
@@ -59,6 +91,8 @@ return {
         changed, self.cfg.x = imgui.drag_int("X position", self.cfg.x, 2, 0, 10000)
         self.cfgChanged = self.cfgChanged or changed
         changed, self.cfg.y = imgui.drag_int("Y position", self.cfg.y, 2, 0, 10000)
+        self.cfgChanged = self.cfgChanged or changed
+        changed, self.cfg.w = imgui.drag_int("Width", self.cfg.w, 2, 0, 10000)
         self.cfgChanged = self.cfgChanged or changed
         changed, self.cfg.borderWidth = imgui.drag_int("Border", self.cfg.borderWidth, 1, 0, 50)
         self.cfgChanged = self.cfgChanged or changed
