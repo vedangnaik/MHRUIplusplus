@@ -8,7 +8,7 @@ return {
         setmetatable(o, self)
         o.cfgFilepath = o.cfgFilepath .. "BuffIndicator++.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 110,
+            x                  = 170,
             y                  = 5,
             borderWidth        = 2,
             borderColor        = "0xAA000000",

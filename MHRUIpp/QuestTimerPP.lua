@@ -21,9 +21,9 @@ return {
     end,
 
     draw = function(self)
+        -- Get quest timer and time elapsed if on a quest.
         local timeLimit = 0
         local elapsedTimeSeconds = 0
-
         if not QuestManager then QuestManager = sdk.get_managed_singleton("snow.QuestManager") end
         local activeQuestData = QuestManager:call("getActiveQuestData")
         if activeQuestData then
@@ -31,16 +31,18 @@ return {
             elapsedTimeSeconds = QuestManager:call("getQuestElapsedTimeSec");
         end
 
-        local w = (13 * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1) -- Hardcoded string length
+        -- Get current hours and minutes.
+        local dateObj = os.date("*t", os.time())
+        local text = ""
+        if timeLimit == 0 then
+            text = string.format("No Time Limit | %02d:%02d", dateObj.hour, dateObj.min)
+        else
+            text = string.format("%02d:%02.0f / %02d:00 | %02d:%02d", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit, dateObj.hour, dateObj.min)
+        end
+
+        local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
         local h = self.cfg.fontSize + (textVertOffset << 1)
         local borderOffset = self.cfg.borderWidth << 1
-        local text = ""
-
-        if timeLimit == 0 then
-            text = "No Time Limit"
-        else
-            text = string.format("%02d:%02.0f / %02d:00", elapsedTimeSeconds // 60, elapsedTimeSeconds % 60, timeLimit)
-        end
 
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.x - self.cfg.borderWidth, self.cfg.y - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.cfg.borderColor)
