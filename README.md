@@ -11,7 +11,7 @@ MHR User Interface++ (abbreviated MHRUIpp) replaces MHR's default un-resizable, 
 - Sharpness Gauge++, a more compact sharpness meter with added readout for the current level, and
 - Monster HP Bar, a new addition to the UI that displays the nearest monster's HP.
 
-![Screenshot (31)](https://user-images.githubusercontent.com/25436568/153698431-2f6262ea-8219-421b-8204-da022689376c.png)
+![Screenshot (34)](https://user-images.githubusercontent.com/25436568/154574086-8fee5e15-4492-4e8b-81e4-8e1ae84f73d4.png)
 
 <p align="center"><em>An expedition showcasing unlimited quest time, Magma debuff, recoverable health, and other widgets</em></p>
 
