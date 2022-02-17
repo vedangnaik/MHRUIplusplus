@@ -8,7 +8,7 @@ return {
         setmetatable(o, self)
         o.cfgFilepath = o.cfgFilepath .. "BuffIndicator++.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 240,
+            x                  = 110,
             y                  = 5,
             borderWidth        = 2,
             borderColor        = "0xAA000000",
@@ -23,12 +23,19 @@ return {
 
     draw = function(self)
         local playerCondition = getPlayer():call("get_PlayerData"):get_field("_condition")
+        -- Both of these are 32 bit integers. Each bit encodes whether a buff is active or not.
         local common = playerCondition:call("get_CommonCondition")
         local horn = playerCondition:call("get_HornMusicUpCondition")
+        local activeBuffs = {}
 
-        local text = "No Buff :("
-        if common ~= 0 then text = self.commonBuffMsgs[common] or "Unknown"
-        elseif horn ~= 0 then text = self.hornBuffMsgs[horn] or "Unknown :|" end
+        for k, v in pairs(self.commonBuffMsgs) do
+            if common & k > 0 then table.insert(activeBuffs, v) end
+        end
+        for k, v in pairs(self.hornBuffMsgs) do
+            if horn & k > 0 then table.insert(activeBuffs, v) end
+        end
+        local text = table.concat(activeBuffs, " + ")
+        if text == "" then text = "No Buff :(" end
 
         if common ~= 0 or horn ~= 0 or self.cfg.visibleNotDebuffed then
             local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)

@@ -8,8 +8,8 @@ return {
         setmetatable(o, self)
         o.cfgFilepath = o.cfgFilepath .. "DebuffIndicator++.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 115,
-            y                  = 5,
+            x                  = 80,
+            y                  = 80,
             borderWidth        = 2,
             borderColor        = "0xAA000000",
             bgColor            = "0xAA621EE8",
@@ -23,8 +23,15 @@ return {
 
     draw = function(self)
         local debuff = getPlayer():call("get_PlayerData"):get_field("_condition"):call("get_DebuffCondition")
+        local activeBuffs = {}
+
+        for k, v in pairs(self.debuffMsgs) do
+            if debuff & k > 0 then table.insert(activeBuffs, v) end
+        end
+        local text = table.concat(activeBuffs, " + ")
+        if text == "" then text = "No Debuff :)" end
+
         if debuff ~= 0 or self.cfg.visibleNotDebuffed then
-            local text = self.debuffMsgs[debuff] or "Unknown :("
             local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
             local h = self.cfg.fontSize + (textVertOffset << 1)
             local borderOffset = self.cfg.borderWidth << 1
