@@ -8,7 +8,7 @@ return {
         setmetatable(o, self)
         o.cfgFilepath = o.cfgFilepath .. "BuffIndicator++.json"
         o.defaults = mergeTables({o.defaults, {
-            x                  = 240,
+            x                  = 110,
             y                  = 5,
             borderWidth        = 2,
             borderColor        = "0xAA000000",
@@ -34,7 +34,6 @@ return {
         for k, v in pairs(self.hornBuffMsgs) do
             if horn & k > 0 then table.insert(activeBuffs, v) end
         end
-
         local text = table.concat(activeBuffs, " + ")
         if text == "" then text = "No Buff :(" end
 
