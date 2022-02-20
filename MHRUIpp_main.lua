@@ -2,19 +2,20 @@ require("MHRUIpp/helpers")
 
 -- Put all elements in array and set them up.
 StockUIHandler    = require("MHRUIpp/StockUIHandler"):new()
-StaminaBarPP      = require("MHRUIpp/StaminaBarPP"):new()
-HealthBarPP       = require("MHRUIpp/HealthBarPP"):new()
-QuestTimerPP      = require("MHRUIpp/QuestTimerPP"):new()
-DebuffIndicatorPP = require("MHRUIpp/DebuffIndicatorPP"):new()
-BuffIndicatorPP   = require("MHRUIpp/BuffIndicatorPP"):new()
-SharpnessGaugePP  = require("MHRUIpp/SharpnessGaugePP"):new()
+StaminaBarPP      = require("MHRUIpp/StaminaBar++"):new()
+HealthBarPP       = require("MHRUIpp/HealthBar++"):new()
+QuestTimerPP      = require("MHRUIpp/QuestTimer++"):new()
+DebuffIndicatorPP = require("MHRUIpp/DebuffIndicator++"):new()
+BuffIndicatorPP   = require("MHRUIpp/BuffIndicator++"):new()
+SharpnessGaugePP  = require("MHRUIpp/SharpnessGauge++"):new()
 MonsterHPBar      = require("MHRUIpp/MonsterHPBar"):new()
+ChargeBladeUIPP   = require("MHRUIpp/WeaponWidgets++/ChargeBladeUI++"):new()
 
 -- Group widgets based on what interfaces they implement.
 -- Those with a Show button
-local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP, MonsterHPBar }
+local viewableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP, MonsterHPBar, ChargeBladeUIPP }
 -- Those with profiles that need to be saved
-local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP, StockUIHandler, MonsterHPBar }
+local persistantConfigurableWidgets = { StaminaBarPP, HealthBarPP, QuestTimerPP, DebuffIndicatorPP, BuffIndicatorPP, SharpnessGaugePP, StockUIHandler, MonsterHPBar, ChargeBladeUIPP }
 -- Those without a Show button
 local nonViewableWidgets = { StockUIHandler }
 
