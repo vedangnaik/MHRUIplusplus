@@ -8,8 +8,8 @@ return {
         setmetatable(o, self)
         o.cfgFilepath = o.cfgFilepath .. "ChargeBladeUI++.json"
         o.defaults = mergeTables({o.defaults, {
-            vialX       = 500,
-            vialY       = 500,
+            vialX       = 5,
+            vialY       = 105,
             borderWidth = 2,
             textColor   = "0xFFFFFFFF"
         }})
@@ -29,18 +29,18 @@ return {
         local SwordBuffTimer  = CBData:get_field("_SwordBuffTimer")
         local isSwordBuffed   = CBData:call("isSwordBuff")
         local isShieldBuffed  = CBData:call("isShieldBuff")
-
-        log_str = "here"
-
+        
         -- Draw vials and sword state gauge.
         local text = string.format("%d/%d", numFilledVials, numVials)
         local w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
         local h = self.cfg.fontSize + (textVertOffset << 1)
-
+        local borderOffset = self.cfg.borderWidth << 1
+        
         imgui.push_font(self.font)
-        draw.filled_rect(self.cfg.vialX - self.cfg.borderWidth, self.cfg.vialY - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.gaugeStateColors[gaugeState])
-        -- draw.filled_rect(self.cfg.x, self.cfg.y, w, h, self.cfg.bgColor)
-        -- draw.text(text, self.cfg.x + textHorizOffset, self.cfg.y + textVertOffset, self.cfg.textColor)
+        log_str = self.cfg.borderWidth
+        draw.filled_rect(self.cfg.vialX - self.cfg.borderWidth, self.cfg.vialY - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.gaugeStateBorderColors[gaugeState])
+        draw.filled_rect(self.cfg.vialX, self.cfg.vialY, w, h, self.guageStateFillColor[gaugeState])
+        draw.text(text, self.cfg.vialX + textHorizOffset, self.cfg.vialY + textVertOffset, self.cfg.textColor)
         imgui.pop_font()
     end,
 
@@ -76,10 +76,17 @@ return {
         return true
     end,
 
-    gaugeStateColors = {
+    gaugeStateBorderColors = {
         [0] = "0xAA000000",
         [1] = "0xAA04B3D0",
         [2] = "0xAA4545D0",
+        [3] = "0xAA4545D0"
+    },
+
+    guageStateFillColor = {
+        [0] = "0xAA000000",
+        [1] = "0xAA000000",
+        [2] = "0xAA000000",
         [3] = "0xAA6060FF"
     }
 }
