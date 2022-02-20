@@ -11,9 +11,10 @@ return {
         -- Set defaults and filepath
         o.cfgFilepath = o.cfgFilepath .. "StockUIHandler.json"
         o.defaults = mergeTables({o.defaults, {
-            showHUD = false,
-            showBuddyHUD = false,
+            showHUD          = false,
+            showBuddyHUD     = false,
             showSharpnessHUD = false,
+            showWeaponUI     = false
         }})
         -- Load config and font
         o:loadCfg()
@@ -26,6 +27,7 @@ return {
         if self.cfg.showHUD then GUIManager:call("openHud") else GUIManager:call("closeHud") end
         if self.cfg.showBuddyHUD then GUIManager:call("openPartHud") else GUIManager:call("closePartHud") end
         if self.cfg.showSharpnessHUD then GUIManager:call("openHudSharpness") else GUIManager:call("closeHudSharpness") end
+        if self.cfg.showWeaponUI then GUIManager:call("openWeaponUI") else GUIManager:call("closeWeaponUI") end
     end,
 
     drawConfigWindow = function(self)
@@ -44,6 +46,8 @@ return {
         if self.cfg.showBuddyHUD then self.cfg.showHUD = true end
 
         changed, self.cfg.showSharpnessHUD = imgui.checkbox("Show Sharpness Gauge?", self.cfg.showSharpnessHUD)
+        self.cfgChanged = self.cfgChanged or changed
+        changed, self.cfg.showWeaponUI = imgui.checkbox("Show Weapon UI?", self.cfg.showWeaponUI)
         self.cfgChanged = self.cfgChanged or changed
         imgui.new_line()
 
