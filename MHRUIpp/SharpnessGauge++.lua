@@ -21,6 +21,10 @@ return {
     end,
 
     draw = function(self)
+        -- Cancel function if the current weapon doesn't have sharpness.
+        local _, weaponName = getCurrentWeaponInstanceAndName()
+        if weaponName == "Bow" or weaponName == "LightBowgun" or weaponName == "HeavyBowgun" then return end
+
         local playerBase = getPlayer()
         -- Get raw values.
         local currentSharpness = playerBase:call("get_SharpnessGauge")

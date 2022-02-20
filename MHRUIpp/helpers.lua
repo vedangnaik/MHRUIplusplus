@@ -54,11 +54,11 @@ function isInTrainingArea()
     return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo") == 5
 end
 
--- Returns the current equipped weapon class if it is weaponName, else nil.
-function getCurrentWeaponInstanceIfIs(weaponName)
+function getCurrentWeaponInstanceAndName()
     if not InputManager then InputManager = sdk.get_managed_singleton("snow.StmInputManager") end
     local weapon = InputManager:get_field("_InGameInputDevice"):get_field("_pl_input"):get_field("RefPlayer")
-    if weapon:get_type_definition():get_name() == weaponName then return weapon end
+    local weaponName = weapon:get_type_definition():get_name()
+    return weapon, weaponName
 end
 
 function mergeTables(tables)

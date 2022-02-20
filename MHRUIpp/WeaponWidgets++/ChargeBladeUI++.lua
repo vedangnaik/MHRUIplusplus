@@ -19,8 +19,8 @@ return {
     end,
 
     draw = function(self)
-        local CBData = getCurrentWeaponInstanceIfIs("ChargeAxe");
-        if not CBData then return end
+        local CBData, CBName = getCurrentWeaponInstanceAndName();
+        if CBName ~= "ChargeAxe" or not CBData then return end
         -- Gather all required CB stats.
         local numVials        = CBData:call("getBottleNumMax")
         local numFilledVials  = CBData:call("get_ChargedBottleNum")
@@ -37,7 +37,6 @@ return {
         local borderOffset = self.cfg.borderWidth << 1
         
         imgui.push_font(self.font)
-        log_str = self.cfg.borderWidth
         draw.filled_rect(self.cfg.vialX - self.cfg.borderWidth, self.cfg.vialY - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.gaugeStateBorderColors[gaugeState])
         draw.filled_rect(self.cfg.vialX, self.cfg.vialY, w, h, self.guageStateFillColor[gaugeState])
         draw.text(text, self.cfg.vialX + textHorizOffset, self.cfg.vialY + textVertOffset, self.cfg.textColor)
