@@ -10,7 +10,10 @@ return {
         o.defaults = mergeTables({o.defaults, {
             vialX       = 5,
             vialY       = 105,
+            shieldX     = 41,
+            shieldY     = 105,
             borderWidth = 2,
+            borderColor = "0xAA000000",
             textColor   = "0xFFFFFFFF"
         }})
         o:loadCfg()
@@ -25,8 +28,8 @@ return {
         local numVials        = CBData:call("getBottleNumMax")
         local numFilledVials  = CBData:call("get_ChargedBottleNum")
         local gaugeState      = CBData:call("get_ChargeGaugeState") -- 0 = empty, 1 = half, 2 = full, 3 = overheat
-        local ShieldBuffTimer = CBData:get_field("_ShieldBuffTimer")
-        local SwordBuffTimer  = CBData:get_field("_SwordBuffTimer")
+        local shieldBuffTimer = math.floor(CBData:get_field("_ShieldBuffTimer") * staminaUnitsToSeconds)
+        local swordBuffTimer  = math.floor(CBData:get_field("_SwordBuffTimer") * staminaUnitsToSeconds)
         local isSwordBuffed   = CBData:call("isSwordBuff")
         local isShieldBuffed  = CBData:call("isShieldBuff")
         
@@ -38,8 +41,18 @@ return {
         
         imgui.push_font(self.font)
         draw.filled_rect(self.cfg.vialX - self.cfg.borderWidth, self.cfg.vialY - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.gaugeStateBorderColors[gaugeState])
-        draw.filled_rect(self.cfg.vialX, self.cfg.vialY, w, h, self.guageStateFillColor[gaugeState])
+        draw.filled_rect(self.cfg.vialX, self.cfg.vialY, w, h, (gaugeState == 3 and "0xAA6060FF" or "0xAA000000"))
         draw.text(text, self.cfg.vialX + textHorizOffset, self.cfg.vialY + textVertOffset, self.cfg.textColor)
+        imgui.pop_font()
+
+        -- Draw shield buff indicator
+        text = (isShieldBuffed and string.format("Shield: %02d:%02d", shieldBuffTimer // 60, shieldBuffTimer % 60) or "Shield: Empty")
+        w = (string.len(text) * self.cfg.fontSize * fontAspectRatio) + (textHorizOffset << 1)
+        
+        imgui.push_font(self.font)
+        draw.filled_rect(self.cfg.shieldX - self.cfg.borderWidth, self.cfg.shieldY - self.cfg.borderWidth, w + borderOffset, h + borderOffset, self.cfg.borderColor)
+        draw.filled_rect(self.cfg.shieldX, self.cfg.shieldY, w, h, (isShieldBuffed and "0XAA796AFF" or "0xAAAB7E4A"))
+        draw.text(text, self.cfg.shieldX + textHorizOffset, self.cfg.shieldY + textVertOffset, self.cfg.textColor)
         imgui.pop_font()
     end,
 
@@ -80,12 +93,5 @@ return {
         [1] = "0xAA04B3D0",
         [2] = "0xAA4545D0",
         [3] = "0xAA4545D0"
-    },
-
-    guageStateFillColor = {
-        [0] = "0xAA000000",
-        [1] = "0xAA000000",
-        [2] = "0xAA000000",
-        [3] = "0xAA6060FF"
     }
 }
