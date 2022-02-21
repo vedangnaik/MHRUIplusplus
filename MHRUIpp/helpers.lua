@@ -17,6 +17,7 @@ HWKeyboardManager = nil
 SceneManager      = sdk.get_native_singleton("via.SceneManager")
 MessageManager    = nil
 EnemyManager      = nil
+InputManager      = nil
 -- Typedefs
 StageManager_typedef       = sdk.find_type_definition("snow.stage.StageManager")
 VillageAreaManager_typedef = sdk.find_type_definition("snow.VillageAreaManager")
@@ -43,15 +44,21 @@ tempToggleKeyNumber = 46
 -- Screen width
 screenWidth = sdk.call_native_func(SceneManager, SceneManager_typedef, "get_MainView"):call("get_Size"):get_field("w")
 
--- Helpers functions
 function getPlayer()
     if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
     return PlayerManager:call("findMasterPlayer")
 end
 
--- We need to keep getting this singleton for this to work properly :|
 function isInTrainingArea()
+    -- We need to keep getting this singleton for this to work properly :|
     return sdk.get_managed_singleton("snow.VillageAreaManager"):call("get__CurrentAreaNo") == 5
+end
+
+function getCurrentWeaponInstanceAndName()
+    if not InputManager then InputManager = sdk.get_managed_singleton("snow.StmInputManager") end
+    local weapon = InputManager:get_field("_InGameInputDevice"):get_field("_pl_input"):get_field("RefPlayer")
+    local weaponName = weapon:get_type_definition():get_name()
+    return weapon, weaponName
 end
 
 function mergeTables(tables)
@@ -68,7 +75,8 @@ function mergeTables(tables)
     return t
 end
 
--- log_str = ""
--- re.on_draw_ui(function()
---     imgui.text(tostring(log_str))
--- end)
+log_str = ""
+re.on_draw_ui(function()
+    if log_str == "" then return end
+    imgui.text(tostring(log_str))
+end)
