@@ -21,21 +21,31 @@ return {
     end,
 
     draw = function(self)
-        -- Cancel function if the current weapon doesn't have sharpness.
         local _, weaponName = getCurrentWeaponInstanceAndName()
         if weaponName == "Bow" or weaponName == "LightBowgun" or weaponName == "HeavyBowgun" then return end
-
         local playerBase = getPlayer()
+
         -- Get raw values.
         local currentSharpness = playerBase:call("get_SharpnessGauge")
         local maxSharpness = playerBase:call("get_SharpnessGaugeMax")
+        -- Compensate for handicraft.
+        local handicraftLevel = 0
+        for level = 3, 1, -1 do
+            if playerBase:call("get_PlayerSkillList"):call("hasSkill", self.handicraftId, level) then
+                handicraftLevel = level
+                break
+            end
+        end
+        -- If max sharpness is 400, then handicraft doesn't add any more. Compensate for that.
+        -- TODO: see how max sharpness in the 371-399 range behave with handicraft: e.g. does lv 1 add +5 sharpness to 395?
+        local handicraftSharpness = math.min(handicraftLevel * 10, 400 - maxSharpness)
         -- Get levels for color.
         local currentLv = playerBase:call("get_SharpnessLv")
-        local currentLvGaugeLength = playerBase:call("getSharpnessLvLength", currentLv)
+        local currentLvGaugeLength = playerBase:call("getSharpnessLvLength", currentLv) + handicraftSharpness
         local maxLv = playerBase:call("getSharpnessLvToGauge", maxSharpness)
         -- Get lower bound for current level.
         for level = maxLv, currentLv, -1 do
-            maxSharpness = maxSharpness - playerBase:call("getSharpnessLvLength", level)
+            maxSharpness = maxSharpness - playerBase:call("getSharpnessLvLength", level) - handicraftSharpness
         end
         -- Get current and max sharpness w.r.t. this level.
         currentSharpness = currentSharpness - maxSharpness
@@ -93,5 +103,7 @@ return {
         [3] = "0xAA2CD970",
         [4] = "0xAAD9862C",
         [5] = "0xAAFFFFFF",
-    }
+    },
+
+    handicraftId = 22
 }

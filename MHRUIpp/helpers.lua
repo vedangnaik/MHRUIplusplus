@@ -77,5 +77,6 @@ end
 
 log_str = ""
 re.on_draw_ui(function()
+    if log_str == "" then return end
     imgui.text(tostring(log_str))
 end)
